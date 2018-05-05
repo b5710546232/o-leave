@@ -6,6 +6,7 @@ import router from './router'
 import Element from 'element-ui'
 import DataTables from 'vue-data-tables'
 import locale from 'element-ui/lib/locale/lang/en'
+import fullCalendar from 'vue-fullcalendar'
 
 import 'element-ui/lib/theme-chalk/index.css'
 import 'bulma-start/css/main.css'
@@ -14,6 +15,7 @@ import './styles/spacing.css'
 Vue.config.productionTip = false
 Vue.use(Element, { locale })
 Vue.use(DataTables)
+Vue.component('full-calendar', fullCalendar)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

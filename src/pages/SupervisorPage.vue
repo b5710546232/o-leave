@@ -25,11 +25,8 @@
         </div>
         <div class="tile is-parent">
           <article class="tile is-child notification is-danger">
-            <p class="title">Wide tile</p>
-            <p class="subtitle">Aligned with the right tile</p>
-            <div class="content">
-              <!-- Content -->
-            </div>
+            <p class="title">Calendar</p>
+            <full-calendar :events="fcEvents"></full-calendar>
           </article>
         </div>
       </div>
@@ -67,13 +64,20 @@ data = [{
     prop: "flow_type",
     label: "Type"
 }]
-
+var demoEvents = [
+	{
+      title : 'Sunny Out of Office',
+      start : '2016-08-25',
+      end : '2018-07-27'
+    }
+]
 export default {
   name: 'HelloWorld',
   data () {
     return {
       data,
       titles,
+      fcEvents : demoEvents,
       actionsDef: {
           colProps: {
             span: 5
@@ -135,24 +139,19 @@ export default {
         name: 'Edit'
       }]
     }
+  },
+  components : {
+	  'full-calendar': require('vue-fullcalendar')	
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+<style>
+  .full-calendar-header {
+    color: black !important;
+  }
+  .full-calendar-body {
+    color: black !important;    
+  }
 </style>
