@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Element from 'element-ui'
+import DataTables from 'vue-data-tables'
 import locale from 'element-ui/lib/locale/lang/en'
 
 import 'element-ui/lib/theme-chalk/index.css'
@@ -12,6 +13,7 @@ import './styles/spacing.css'
 
 Vue.config.productionTip = false
 Vue.use(Element, { locale })
+Vue.use(DataTables)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
