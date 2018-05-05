@@ -8,6 +8,7 @@ import locale from 'element-ui/lib/locale/lang/en'
 
 import 'element-ui/lib/theme-chalk/index.css'
 import 'bulma-start/css/main.css'
+import './styles/spacing.css'
 
 Vue.config.productionTip = false
 Vue.use(Element, { locale })
