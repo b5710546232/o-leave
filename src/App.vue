@@ -19,27 +19,28 @@
 
 <script>
 export default {
-  name: 'App'
-}
+  name: "App"
+};
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   /* margin-top: 60px; */
   width: 100%;
-  height:100%;
+  height: 100%;
 }
-html, body{
+html,
+body {
   width: 100%;
-  height:100%;
-  margin:0;
+  height: 100%;
+  margin: 0;
 }
 #navbar {
-  background-color: #00FA9A;
+  background-color: #00fa9a;
 }
 </style>

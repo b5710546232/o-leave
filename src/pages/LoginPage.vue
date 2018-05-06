@@ -1,26 +1,32 @@
 <template>
     <div class='root'>
-        <div>
+        <div class="logo-container">
             <h1 class="logo">Logo</h1>
         </div>
-        <el-card class="box-card login-box">
-            <h1>Log in to your account</h1>
-            <el-form :model="ruleFormLogin" status-icon :rules="loginRule" ref="ruleFormLogin" label-width="120px" class="login-form" :label-position="'top'">
-                <el-form-item label="" prop="pass">
-                    <el-input type="text" v-model="ruleFormLogin.pass" auto-complete="off">
-                        <template slot="prepend"><i class="fa fa-envelope"></i></template>
-                    </el-input>
-                </el-form-item>
-                <el-form-item label="" prop="checkPass">
-                    <el-input type="password" v-model="ruleFormLogin.checkPass" auto-complete="off">
-                        <template slot="prepend"><i class="fa fa-key"></i></template>
-                    </el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary btn" @click="submitForm('ruleFormLogin')">Log in</el-button>
-                </el-form-item>
-            </el-form>
-        </el-card>
+        <div class="login-container">
+            <el-card class="box-card login-box">
+                <h1>Log in to your account</h1>
+                <el-form @submit.prevent="onLogin" :model="loginForm" status-icon :rules="loginRule" ref="loginForm" label-width="120px" class="login-form" :label-position="'top'">
+                    <el-form-item label="" prop="email">
+                        <el-input type="text" v-model="loginForm.email" auto-complete="off" @keyup.enter.native="checkEnter">
+                            <template slot="prepend">
+                                <i class="fa fa-envelope"></i>
+                            </template>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="" prop="password">
+                        <el-input type="password" v-model="loginForm.password" auto-complete="off" @keyup.enter.native="checkEnter">
+                            <template slot="prepend">
+                                <i class="fa fa-key"></i>
+                            </template>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary btn" @click="onLogin('loginForm')">Log in</el-button>
+                    </el-form-item>
+                </el-form>
+            </el-card>
+        </div>
     </div>
 </template>
 
@@ -30,42 +36,84 @@ export default {
   data() {
     return {
       msg: "Welcome to Your Vue.js Login",
-      ruleFormLogin: {},
-      loginRule:{}
+      loginForm: {
+        email: "",
+        password: ""
+      },
+      loginRule: {
+        email: [
+          {
+            required: true,
+            message: "Please input email address",
+            trigger: "blur,change"
+          },
+          {
+            type: "email",
+            message: "Please input correct email addresss",
+            trigger: "blur"
+          }
+        ],
+        password: [
+          { required: true, message: "Please input password", trigger: "blur" }
+        ]
+      }
+    };
+  },
+  methods: {
+    checkEnter(event) {
+      this.onLogin();
+    },
+    onLogin() {
+      this.$refs["loginForm"].validate(valid => {
+        if (valid) {
+          alert("submit!");
+          const payload = {
+            username: this.loginForm.email,
+            password: this.loginForm.password
+          };
+          this.$store.dispatch("login", payload);
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     }
   }
-}
+};
 </script>
 
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style scoped>
-.login-form{
-    padding: 40px;
+.login-form {
+  padding: 40px;
 }
-.logo{
-    background:red;
-    width: 150px;
-    height:150px;
-    position: absolute;
-    top:10%;
-     left: 50%;
-    transform: translate(-50%, 0);
+.logo {
+  background: red;
+  width: 128px;
+  height: 128px;
 }
-.el-input {
-    min-width: 320px;
-  }
-.btn{
-    width: 100%;
-}
-.root {
+.login-container {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2.5% 0;
+}
+.el-input {
+  min-width: 320px;
+}
+.btn {
+  width: 100%;
+}
+.root {
   width: 100%;
   height: 100%;
+  overflow: hidden;
   /* background:#535353; */
-  
 }
 .login-box {
   width: auto;
@@ -74,23 +122,23 @@ export default {
   justify-content: center;
   /* box-shadow: none; */
 }
- .box-card {
-    width: 480px;
-  }
-@media only screen and (max-width: 425px) {
-    .login-box {
-        width: auto;
-        height: auto;
-    }
-    .el-input {
-     min-width: 200px;
-    }
-    .login-form{
-        padding: 20px;
-    }
+.box-card {
+  width: 480px;
 }
-h1{
-    font-weight: 700;
-    font-size: 1.25rem;
+@media only screen and (max-width: 425px) {
+  .login-box {
+    width: auto;
+    height: auto;
+  }
+  .el-input {
+    min-width: 200px;
+  }
+  .login-form {
+    padding: 20px;
+  }
+}
+h1 {
+  font-weight: 700;
+  font-size: 1.25rem;
 }
 </style>
