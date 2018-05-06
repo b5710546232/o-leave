@@ -7,7 +7,10 @@ const state = {
 }
 
 // getters
-const getters = {}
+const getters = {
+  isLogin: state => state.isLogin,
+  token: state => state.token
+}
 
 // actions
 const actions = {
