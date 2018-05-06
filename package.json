@@ -15,6 +15,7 @@
   "dependencies": {
     "bulma-start": "^0.0.2",
     "element-ui": "^2.3.7",
+    "font-awesome": "^4.7.0",
     "vue": "^2.5.2",
     "vue-data-tables": "^3.2.0",
     "vue-fullcalendar": "^1.0.9",
