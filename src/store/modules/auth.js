@@ -3,7 +3,7 @@ import auth from '../../api/auth'
 // initial state
 const state = {
   isLogin: false,
-  role: ''
+  token: ''
 }
 
 // getters
@@ -16,15 +16,26 @@ const actions = {
     auth.login(payload)
       .then(res => {
         console.log('res', res)
+        let token = `${res.token_type} ${res.access_token}`
+        commit('setToken', token)
+        commit('setLoginStatus', true)
       }).catch(err => {
         console.error(err)
+        commit('setToken', '')
+        commit('setLoginStatus', false)
       })
   }
 }
 
 // mutations
 const mutations = {
-  setRole (state) {}
+  setToken (state, token) {
+    state.token = token
+  },
+  setLoginStatus (state, isLogin) {
+    state.isLogin = isLogin
+  }
+
 }
 
 export default {
