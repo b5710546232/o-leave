@@ -78,7 +78,6 @@ export default {
     onLogin() {
       this.$refs["loginForm"].validate(valid => {
         if (valid) {
-          alert("submit!");
           const payload = {
             username: this.loginForm.email,
             password: this.loginForm.password
@@ -90,6 +89,10 @@ export default {
             this.$nextTick(()=>{
               loadingInstance.close();
             })
+            console.log(this.$store.state)
+            if(this.$store.state.auth.token){
+              this.$store.dispatch("getMe",this.$store.state.auth.token)
+            }
           })
         } else {
           console.log("error submit!!");

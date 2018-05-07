@@ -3,7 +3,7 @@ import auth from '../../api/auth'
 // initial state
 const state = {
   isLogin: false,
-  token: '',
+  token: undefined,
   errorMessage: ''
 }
 
@@ -23,6 +23,9 @@ const actions = {
       .then(res => {
         console.log('res', res)
         let token = `${res.token_type} ${res.access_token}`
+        if (res.access_token === undefined) {
+          token = undefined
+        }
         commit('setToken', token)
         commit('setLoginStatus', true)
         commit('setErrorMessege', res.message)
