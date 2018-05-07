@@ -1,9 +1,12 @@
-import axios, { DefaultHeaders } from './axios'
+import axios from './base'
 
-const getMe = (headers = DefaultHeaders) => {
-  return axios.get('/me', {
-    'headers': headers
-  }).then((res) => {
+const getMe = (token = getAccessToken()) => {
+  const config = {
+    headers: {
+      'Authorization': token
+    }
+  }
+  return axios.get('/me', config).then((res) => {
     return res.data
   }).catch(error => {
     return error
