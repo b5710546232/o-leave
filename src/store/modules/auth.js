@@ -1,4 +1,5 @@
-import auth from '../../api/auth'
+import store from '@/store'
+import auth from '@/api/auth'
 
 // initial state
 const state = {
@@ -25,11 +26,13 @@ const actions = {
         let token = `${res.token_type} ${res.access_token}`
         if (res.access_token === undefined) {
           token = undefined
+          throw (res)
         }
+        localStorage.setItem('accessToken', token)
         commit('setToken', token)
         commit('setLoginStatus', true)
-        commit('setErrorMessege', res.message)
       }).catch(err => {
+        localStorage.setItem('accessToken', '')
         console.error(err)
         commit('setToken', '')
         commit('setLoginStatus', false)

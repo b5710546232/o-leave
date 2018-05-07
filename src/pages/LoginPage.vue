@@ -77,6 +77,25 @@ export default {
       this.$refs['password'].blur()
       this.onLogin();
     },
+    login(payload){
+      let loadingInstance = Loading.service({fullscreen: true})
+      const closeLoading = ()=>{
+              this.$nextTick(()=>{
+                loadingInstance.close();
+              })
+      }
+       this.$store.dispatch("login", payload)
+          .then (() => {
+          })
+          .then(()=>{
+            if(this.$store.state.auth.isLogin){
+             return this.$store.dispatch("getMe",this.$store.state.auth.token)
+            }
+          })
+          .then(()=>{
+            closeLoading()
+          })
+    },
     onLogin() {
       this.$refs["loginForm"].validate(valid => {
         if (valid) {
@@ -84,18 +103,7 @@ export default {
             username: this.loginForm.email,
             password: this.loginForm.password
           };
-          let loadingInstance = Loading.service({fullscreen: true})
-          this.$store.dispatch("login", payload) 
-          .then (() => {
-            console.log("complete")
-            this.$nextTick(()=>{
-              loadingInstance.close();
-            })
-            console.log(this.$store.state)
-            if(this.$store.state.auth.token){
-              this.$store.dispatch("getMe",this.$store.state.auth.token)
-            }
-          })
+         this.login(payload)
         } else {
           console.log("error submit!!");
           return false;

@@ -13,26 +13,40 @@ const state = {
   lname: '',
   telno: '',
   supervisor_id: null
-
 }
 
 // getters
-const getters = {
-}
+const getters = {}
 
 // actions
 const actions = {
-  getMe ({commit, state}, token) {
-    console.log('action-getme', token)
-    user.getMe(token)
-      .then(res => {
-        console.log('actions', res)
-      })
+  getMe ({ commit, state }, token) {
+    return user.getMe(token).then(res => {
+      console.log('actions', res)
+      let userState = {
+        address: res.address,
+        department: res.department,
+        role: res.role,
+        email: res.email,
+        fb: res.fb,
+        ig: res.ig,
+        image_path: res.image_path,
+        fname: res.fname,
+        lname: res.lname,
+        telno: res.telno,
+        supervisor_id: res.supervisor_id
+      }
+      commit('setUserState', userState)
+    })
   }
 }
 
 // mutations
 const mutations = {
+  setUserState (state, userState) {
+    state = userState
+  }
+
 }
 
 export default {
