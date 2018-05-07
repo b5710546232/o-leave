@@ -25,12 +25,15 @@
                         <el-button type="primary btn" @click="onLogin('loginForm')">Log in</el-button>
                     </el-form-item>
                 </el-form>
+                <div class="error-text">{{errorMessage}}</div>
             </el-card>
         </div>
+        
     </div>
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 export default {
   name: "HelloWorld",
   data() {
@@ -59,6 +62,14 @@ export default {
       }
     };
   },
+  created (){
+     console.log()
+  },
+  computed:   {
+      ...mapGetters([
+        'errorMessage'
+      ])
+  },
   methods: {
     checkEnter(event) {
       this.onLogin();
@@ -84,6 +95,9 @@ export default {
 
 <!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style scoped>
+.error-text{
+  color: #f56c6c;
+}
 .login-form {
   padding: 40px;
 }
