@@ -19,7 +19,7 @@ const getters = {
 const actions = {
   login ({commit, state}, payload) {
     console.log('action-login', payload)
-    auth.login(payload)
+    return auth.login(payload)
       .then(res => {
         console.log('res', res)
         let token = `${res.token_type} ${res.access_token}`
