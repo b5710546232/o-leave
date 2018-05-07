@@ -34,6 +34,7 @@
 
 <script>
 import {mapGetters} from 'vuex'
+import { Loading } from 'element-ui'
 export default {
   name: "HelloWorld",
   data() {
@@ -82,7 +83,14 @@ export default {
             username: this.loginForm.email,
             password: this.loginForm.password
           };
-          this.$store.dispatch("login", payload);
+          let loadingInstance = Loading.service({fullscreen: true})
+          this.$store.dispatch("login", payload) 
+          .then (() => {
+            console.log("complete")
+            this.$nextTick(()=>{
+              loadingInstance.close();
+            })
+          })
         } else {
           console.log("error submit!!");
           return false;
