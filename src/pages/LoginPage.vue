@@ -8,14 +8,14 @@
                 <h1 class="header">Log in to your account</h1>
                 <el-form @submit.prevent="onLogin" :model="loginForm" status-icon :rules="loginRule" ref="loginForm" label-width="120px" class="login-form" :label-position="'top'">
                     <el-form-item label="" prop="email">
-                        <el-input type="text" v-model="loginForm.email" auto-complete="off" @keyup.enter.native="checkEnter">
+                        <el-input ref="email" type="text" v-model="loginForm.email" auto-complete="off" @keyup.enter.native="checkEnter">
                             <template slot="prepend">
                                 <i class="fa fa-envelope"></i>
                             </template>
                         </el-input>
                     </el-form-item>
                     <el-form-item label="" prop="password">
-                        <el-input type="password" v-model="loginForm.password" auto-complete="off" @keyup.enter.native="checkEnter">
+                        <el-input ref="password" type="password" v-model="loginForm.password" auto-complete="off" @keyup.enter.native="checkEnter">
                             <template slot="prepend">
                                 <i class="fa fa-key"></i>
                             </template>
@@ -73,6 +73,8 @@ export default {
   },
   methods: {
     checkEnter(event) {
+      this.$refs['email'].blur()
+      this.$refs['password'].blur()
       this.onLogin();
     },
     onLogin() {
