@@ -3,13 +3,16 @@ import auth from '../../api/auth'
 // initial state
 const state = {
   isLogin: false,
-  token: ''
+  token: '',
+  errorMessage: ''
 }
 
 // getters
 const getters = {
   isLogin: state => state.isLogin,
-  token: state => state.token
+  token: state => state.token,
+  errorMessage: state => state.errorMessage
+
 }
 
 // actions
@@ -22,10 +25,12 @@ const actions = {
         let token = `${res.token_type} ${res.access_token}`
         commit('setToken', token)
         commit('setLoginStatus', true)
+        commit('setErrorMessege', res.message)
       }).catch(err => {
         console.error(err)
         commit('setToken', '')
         commit('setLoginStatus', false)
+        commit('setErrorMessege', err.message)
       })
   }
 }
@@ -37,6 +42,9 @@ const mutations = {
   },
   setLoginStatus (state, isLogin) {
     state.isLogin = isLogin
+  },
+  setErrorMessege (state, message) {
+    state.errorMessage = message
   }
 
 }
