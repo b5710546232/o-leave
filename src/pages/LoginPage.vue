@@ -1,11 +1,11 @@
 <template>
     <div class='root'>
         <div class="logo-container">
-            <h1 class="logo">Logo</h1>
+            <img src="../assets/logo.png" alt="">
         </div>
         <div class="login-container">
             <el-card class="box-card login-box">
-                <h1>Log in to your account</h1>
+                <h1 class="header">Log in to your account</h1>
                 <el-form @submit.prevent="onLogin" :model="loginForm" status-icon :rules="loginRule" ref="loginForm" label-width="120px" class="login-form" :label-position="'top'">
                     <el-form-item label="" prop="email">
                         <el-input type="text" v-model="loginForm.email" auto-complete="off" @keyup.enter.native="checkEnter">
@@ -142,7 +142,11 @@ export default {
   height: auto;
   display: flex;
   justify-content: center;
-  /* box-shadow: none; */
+  box-shadow: none;
+  border: solid #34CB6E 1.25px;
+}
+.header{
+  color:#34CB6E;
 }
 .box-card {
   width: 480px;
