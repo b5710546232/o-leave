@@ -22,7 +22,7 @@
                         </el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary btn" @click="onLogin('loginForm')">Log in</el-button>
+                        <el-button class="login-btn" type="success btn" @click="onLogin('loginForm')">Log in</el-button>
                     </el-form-item>
                 </el-form>
                 <div class="error-text">{{errorMessage}}</div>
@@ -68,7 +68,8 @@ export default {
   },
   computed:   {
       ...mapGetters([
-        'errorMessage'
+        'errorMessage',
+        'userInfo'
       ])
   },
   methods: {
@@ -93,8 +94,13 @@ export default {
             }
           })
           .then(()=>{
+            console.log(this.userInfo.role,'role')
             closeLoading()
+            this.routeByRole(this.userInfo.role)
           })
+    },
+    routeByRole(role){
+      this.$router.push(`/${String(role).toLowerCase()}`);
     },
     onLogin() {
       this.$refs["loginForm"].validate(valid => {
@@ -155,8 +161,11 @@ export default {
   height: auto;
   display: flex;
   justify-content: center;
-  box-shadow: none;
-  border: solid #34CB6E 1.25px;
+  /* box-shadow: none; */
+  /* border: solid #34CB6E 1.25px; */
+}
+.login-btn{
+  background:#34CB6E;
 }
 .header{
   color:#34CB6E;

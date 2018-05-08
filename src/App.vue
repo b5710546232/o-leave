@@ -24,8 +24,12 @@ export default {
 </script>
 
 <style>
+@font-face {
+    font-family: "Roboto";
+    src: url('../static/font/Roboto-Regular.ttf');
+}
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: "Roboto", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -41,6 +45,10 @@ body {
   margin: 0;
 }
 #navbar {
-  background-color: #00fa9a;
+  /* background-color: #00fa9a; */
+  /* border-bottom: solid 1.5px #00fa9a; */
+  /* ;border-radius:2px;-webkit-box-shadow:0 1px 3px rgba(0,0,0,.3); */
+  box-shadow:0 1px 3px rgba(0,0,0,.3);
+  /* box-sizing:border-box;width:50%}.el-dialog.is- */
 }
 </style>

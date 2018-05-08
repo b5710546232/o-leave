@@ -2,21 +2,23 @@ import user from '../../api/user'
 
 // initial state
 const state = {
-  address: '',
-  department: '',
-  role: '',
-  email: '',
-  fb: '',
-  ig: '',
-  image_path: '',
-  fname: '',
-  lname: '',
-  telno: '',
-  supervisor_id: null
+  userInfo: { address: '',
+    department: '',
+    role: '',
+    email: '',
+    fb: '',
+    ig: '',
+    image_path: '',
+    fname: '',
+    lname: '',
+    telno: '',
+    supervisor_id: null}
 }
 
 // getters
-const getters = {}
+const getters = {
+  userInfo: state => state.userInfo
+}
 
 // actions
 const actions = {
@@ -44,7 +46,7 @@ const actions = {
 // mutations
 const mutations = {
   setUserState (state, userState) {
-    state = userState
+    state.userInfo = userState
   }
 
 }
