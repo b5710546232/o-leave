@@ -40,6 +40,9 @@ const actions = {
       }
       commit('setUserState', userState)
     })
+  },
+  uploadProfile ({commit, state}, file) {
+    return user.uploadProfile(file)
   }
 }
 
