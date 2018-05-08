@@ -5,21 +5,22 @@
         <div class="tile">
           <div class="tile is-parent">
             <article class="tile is-child notification is-info">
-              <p class="title">Middle tile</p>
+              <p class="title">Subordinate Tasks</p>
               <p class="subtitle">With an image</p>
               <data-tables :data="data" :actions-def="actionsDef" :checkbox-filter-def="checkFilterDef" :action-col-def="actionColDef">
-                  <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" sortable="custom">
-                  </el-table-column>
+                <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" sortable="custom">
+                </el-table-column>
               </data-tables>
             </article>
           </div>
           <div class="tile is-parent">
             <article class="tile is-child notification is-info">
-              <p class="title">Middle tile</p>
+              <p class="title">Pending Leave</p>
               <p class="subtitle">With an image</p>
-              <figure class="image is-4by3">
-                <img src="https://bulma.io/images/placeholders/640x480.png">
-              </figure>
+              <data-tables :data="data" :actions-def="actionsDef" :checkbox-filter-def="checkFilterDef" :action-col-def="actionColDef">
+                <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" sortable="custom">
+                </el-table-column>
+              </data-tables>
             </article>
           </div>
         </div>
