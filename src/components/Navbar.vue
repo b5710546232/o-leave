@@ -18,6 +18,9 @@
           <router-link class="navbar-item" to="/">
               Home
           </router-link>
+        <span class="navbar-item pointer btn">
+          Connect &nbsp; <i class="fab fa-line fa-lg"></i>
+        </span>
         </div>
   
         <div class="navbar-end">
@@ -65,9 +68,12 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
   .navbar {
     box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+  }
+  .btn:hover, active{
+    background:rgba(0, 0, 0, .03);
   }
   .pointer{
     cursor: pointer;
