@@ -1,19 +1,19 @@
 <template>
   <div class="root">
-    <nav class="navbar">
+    <nav class="navbar" v-if="$route.name!=='LoginPage'">
       <div class="navbar-brand">
         <router-link class="navbar-item" to="/">
           <img src="../assets/logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="auto" height="150">
         </router-link>
 
-        <div class="navbar-burger burger is-active" data-target="navbarExampleTransparentExample">
+        <div ref="burger" :class="{'navbar-burger burger is-active':isActive,'navbar-burger burger':!isActive}" data-target="oleaveNavbar" @click="toggleNavbar">
           <span></span>
           <span></span>
           <span></span>
         </div>
       </div>
   
-      <div id="navbarExampleTransparentExample" class="navbar-menu">
+      <div ref="menu" :class="{'navbar-menu is-active':isActive,'navbar-menu':!isActive}">
         <div class="navbar-start">
           <router-link class="navbar-item" to="/">
               Home
@@ -22,15 +22,18 @@
   
         <div class="navbar-end">
           <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link">
+            <span class="navbar-item pointer">
           Jub warata
-        </a>
+        </span>
             <div class="navbar-dropdown is-right">
               <a class="navbar-item">
               Your profile
             </a>
-              <a class="navbar-item">
+              <router-link class="navbar-item" to="edituserprofile">
               Edit profile
+            </router-link>
+              <a class="navbar-item pointer"  href="#" @click="onLogout">
+              Log out
             </a>
             </div>
   
@@ -45,7 +48,18 @@
   export default {
     name: "Navbar",
     data() {
-      return {};
+      return {
+        isActive:false
+      };
+    },
+    methods:{
+      toggleNavbar(){
+        this.isActive = !this.isActive
+      },
+      onLogout(){
+        localStorage.setItem('accessToken','')
+        this.$router.go('/')
+      }
     }
   };
 </script>
@@ -54,5 +68,8 @@
 <style scoped>
   .navbar {
     box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+  }
+  .pointer{
+    cursor: pointer;
   }
 </style>

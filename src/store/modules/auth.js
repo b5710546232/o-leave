@@ -19,7 +19,7 @@ const getters = {
 const actions = {
   checkToken ({commit, state}) {
     const token = localStorage.getItem('accessToken')
-    if (token) {
+    if (token || token.length <= 0) {
       commit('setToken', token)
     }
   },
