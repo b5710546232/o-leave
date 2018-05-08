@@ -1,4 +1,3 @@
-import store from '@/store'
 import auth from '@/api/auth'
 
 // initial state
@@ -18,6 +17,12 @@ const getters = {
 
 // actions
 const actions = {
+  checkToken ({commit, state}) {
+    const token = localStorage.getItem('accessToken')
+    if (token) {
+      commit('setToken', token)
+    }
+  },
   login ({commit, state}, payload) {
     console.log('action-login', payload)
     return auth.login(payload)

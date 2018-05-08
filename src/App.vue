@@ -1,25 +1,17 @@
 <template>
   <div id="app">
-    <nav v-if="$route.name!=='LoginPage'" class="navbar" role="navigation" aria-label="main navigation" id="navbar">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="https://bulma.io">
-          <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
-        </a>
-
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
-    </nav>
+    <navbar/>
     <router-view/>
   </div>
 </template>
 
 <script>
+import Navbar from '@/components/Navbar'
 export default {
-  name: "App"
+  name: "App",
+  components:{
+    Navbar
+  }
 };
 </script>
 
@@ -43,12 +35,5 @@ body {
   width: 100%;
   height: 100%;
   margin: 0;
-}
-#navbar {
-  /* background-color: #00fa9a; */
-  /* border-bottom: solid 1.5px #00fa9a; */
-  /* ;border-radius:2px;-webkit-box-shadow:0 1px 3px rgba(0,0,0,.3); */
-  box-shadow:0 1px 3px rgba(0,0,0,.3);
-  /* box-sizing:border-box;width:50%}.el-dialog.is- */
 }
 </style>
