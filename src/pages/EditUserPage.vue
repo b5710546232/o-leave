@@ -3,7 +3,6 @@
         <div class="form-container">
             <el-card class="box-card">
                 <h1 class="header">Edit your profile</h1>
-    
                 <div>
                     <div class="colmuns is-12">
                         <div class="avatar-container">
@@ -19,7 +18,7 @@
     
                     <div class="edit-form">
                         <el-form :model="editForm" status-icon :rules="rules" ref="editForm" label-width="100px" :label-position="'left'">
-                            <el-row :gutter="20">
+                            <el-row :gutter="30">
                                 <el-col :sm="12" :md="12">
                                     <el-form-item label="First name" prop="firstname">
                                         <el-input ref="email" type="text" v-model="editForm.firstname" auto-complete="off" @keyup.enter.native="checkEnter">
@@ -94,17 +93,10 @@
                                         </el-select> -->
     
                                     <!-- </el-form-item> -->
-    
-    
-                                </el-col>
-    
-                                <el-col :span="24">
-                                    <el-form-item>
-                                        <el-button type="primary btn" @click="onSubmitEdit('editForm')">Confirm</el-button>
-                                    </el-form-item>
                                 </el-col>
                             </el-row>
                         </el-form>
+                        <el-button  class="submit-btn" type="primary btn" @click="onSubmitEdit('editForm')">Confirm</el-button>
                     </div>
                 </div>
             </el-card>
@@ -325,6 +317,7 @@
         border-radius: 6px;
         z-index: 1;
         position: relative;
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .2);
     }
     
     .edit-form {
@@ -333,6 +326,10 @@
     
     .el-select {
         width: 100%;
+    }
+    .header{
+        font-size: 1.5rem;
+        margin-bottom: 16px;
     }
     
     .box-card {}
