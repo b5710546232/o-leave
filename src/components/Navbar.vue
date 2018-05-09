@@ -2,9 +2,10 @@
   <div class="root">
     <nav class="navbar" v-if="$route.name!=='LoginPage'">
       <div class="navbar-brand">
-        <router-link class="navbar-item" to="/">
-          <img src="../assets/logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="auto" height="150">
-        </router-link>
+
+        <span class="navbar-item pointer btn" @click="routeByRole">
+          <img src="../assets/logo.png" alt="" width="auto" height="150">
+        </span>
 
         <div ref="burger" :class="{'navbar-burger burger is-active':isActive,'navbar-burger burger':!isActive}" data-target="oleaveNavbar" @click="toggleNavbar">
           <span></span>
@@ -15,14 +16,18 @@
   
       <div ref="menu" :class="{'navbar-menu is-active':isActive,'navbar-menu':!isActive}">
         <div class="navbar-start">
-          <router-link class="navbar-item" to="/">
+          <span class="navbar-item pointer btn" @click="routeByRole">
               Home
-          </router-link>
-        <span class="navbar-item pointer btn">
+          </span>
+
+          <router-link class="navbar-item" to="/" >
+        <span  >
           Connect &nbsp; <i class="fab fa-line fa-lg"></i>
         </span>
+        </router-link>
+
         </div>
-  
+
         <div class="navbar-end">
           <div class="navbar-item has-dropdown is-hoverable">
             <span class="navbar-item pointer">
@@ -48,12 +53,16 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
   export default {
     name: "Navbar",
     data() {
       return {
         isActive:false
       };
+    },
+    computed: {
+      ...mapGetters(['userInfo'])
     },
     methods:{
       toggleNavbar(){
@@ -62,6 +71,15 @@
       onLogout(){
         localStorage.setItem('accessToken','')
         this.$router.go('/')
+      },
+      openLineMessageBox(){
+        
+      },
+      routeByRole(){
+        let role = this.userInfo.role
+        if(role){
+          this.$router.push(`/${String(role).toLowerCase()}`)
+        }
       }
     }
   };
