@@ -7,8 +7,8 @@
             <article class="tile is-child notification is-info">
               <p class="title">Subordinate Tasks</p>
               <p class="subtitle">With an image</p>
-              <data-tables :data="data" :actions-def="actionsDef" :checkbox-filter-def="checkFilterDef" :action-col-def="actionColDef">
-                <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" sortable="custom" :key="title.id">
+              <data-tables :data="data" :actions-def="actionsDef" :checkbox-filter-def="checkFilterDef">
+                <el-table-column v-for="title in taskTitles" :prop="title.prop" :label="title.label" sortable="custom" :key="title.id">
                 </el-table-column>
               </data-tables>
             </article>
@@ -37,7 +37,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-var data, titles
+var data, taskTitles
 
 data = [{
     "content": "Water flood",
@@ -56,15 +56,18 @@ data = [{
     "flow_type_code": "help"
 }]
 
-titles = [{
+taskTitles = [{
   prop: "flow_no",
-  label: "NO."
+  label: "Start Date"
   }, {
   prop: "content",
-  label: "Content"
+  label: "End Date"
   }, {
   prop: "flow_type",
-  label: "Type"
+  label: "Name" 
+  }, {
+  prop: "flow_type",
+  label: "Type", 
 }]
 var demoEvents = [
 	{
@@ -78,7 +81,7 @@ export default {
   data () {
     return {
       data,
-      titles,
+      taskTitles,
       fcEvents : demoEvents,
       actionsDef: {
           colProps: {
@@ -143,16 +146,6 @@ export default {
     }
   },
   mounted() {
-    // this.$store.dispatch('checkToken');
-    // if (this.token) {
-    //   let loadingInstance = Loading.service({
-    //     fullscreen: true
-    //   })
-    //   this.$store.dispatch('getMe', this.token).then(() => {
-    //     this.closeLoading(loadingInstance)
-    //     this.routeByRole(this.userInfo.role)
-    //   })
-    // }
     this.$store.dispatch('getTasks')
   },
   computed: {
