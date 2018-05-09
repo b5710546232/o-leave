@@ -8,7 +8,7 @@
               <p class="title">Subordinate Tasks</p>
               <p class="subtitle">With an image</p>
               <data-tables :data="data" :actions-def="actionsDef" :checkbox-filter-def="checkFilterDef" :action-col-def="actionColDef">
-                <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" sortable="custom">
+                <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" sortable="custom" :key="title.id">
                 </el-table-column>
               </data-tables>
             </article>
@@ -18,7 +18,7 @@
               <p class="title">Pending Leave</p>
               <p class="subtitle">With an image</p>
               <data-tables :data="data" :actions-def="actionsDef" :checkbox-filter-def="checkFilterDef" :action-col-def="actionColDef">
-                <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" sortable="custom">
+                <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" sortable="custom" :key="title.id">
                 </el-table-column>
               </data-tables>
             </article>
@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 var data, titles
 
 data = [{
@@ -53,24 +54,24 @@ data = [{
     "flow_no": "FW201601010003",
     "flow_type": "Help",
     "flow_type_code": "help"
-  }];
+}]
 
-  titles = [{
-    prop: "flow_no",
-    label: "NO."
-    }, {
-    prop: "content",
-    label: "Content"
-    }, {
-    prop: "flow_type",
-    label: "Type"
+titles = [{
+  prop: "flow_no",
+  label: "NO."
+  }, {
+  prop: "content",
+  label: "Content"
+  }, {
+  prop: "flow_type",
+  label: "Type"
 }]
 var demoEvents = [
 	{
-      title : 'Sunny Out of Office',
-      start : '2016-08-25',
-      end : '2018-07-27'
-    }
+    title : 'Sunny Out of Office',
+    start : '2016-08-25',
+    end : '2018-07-27'
+  }
 ]
 export default {
   name: 'HelloWorld',
@@ -140,6 +141,22 @@ export default {
         name: 'Edit'
       }]
     }
+  },
+  mounted() {
+    // this.$store.dispatch('checkToken');
+    // if (this.token) {
+    //   let loadingInstance = Loading.service({
+    //     fullscreen: true
+    //   })
+    //   this.$store.dispatch('getMe', this.token).then(() => {
+    //     this.closeLoading(loadingInstance)
+    //     this.routeByRole(this.userInfo.role)
+    //   })
+    // }
+    this.$store.dispatch('getTasks')
+  },
+  computed: {
+    ...mapGetters(['errorMessage', 'userInfo', 'token', 'isLogin'])
   },
   components : {
 	  'full-calendar': require('vue-fullcalendar')	
