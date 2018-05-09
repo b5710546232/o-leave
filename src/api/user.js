@@ -111,8 +111,7 @@ const getOTP = () => {
     }
   }
   return axios.get('/opt', config).then(res => {
-    console.log(res.data)
-    return res.data
+    return res.data.opt
   }).catch(err => {
     console.error(err)
     alert('error')

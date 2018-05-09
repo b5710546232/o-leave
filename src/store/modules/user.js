@@ -13,12 +13,14 @@ const state = {
     lname: '',
     telno: '',
     line: '',
-    supervisor_id: null}
+    supervisor_id: null},
+  OTP: ''
 }
 
 // getters
 const getters = {
-  userInfo: state => state.userInfo
+  userInfo: state => state.userInfo,
+  OTP: state => state.OTP
 }
 
 // actions
@@ -48,6 +50,15 @@ const actions = {
   },
   updateUser ({commit, state}, payload) {
     return user.updateUser(payload)
+  },
+  getOTP ({commit, state}) {
+    return user.getOTP().then(otp => {
+      commit('setOTP', otp)
+      return otp
+    }).catch(err => err)
+  },
+  setOTP ({commit, state}, otp) {
+    commit('setOTP', otp)
   }
 }
 
@@ -55,6 +66,9 @@ const actions = {
 const mutations = {
   setUserState (state, userState) {
     state.userInfo = userState
+  },
+  setOTP (state, otp) {
+    state.OTP = otp
   }
 
 }

@@ -20,9 +20,9 @@
               Home
           </span>
 
-          <router-link class="navbar-item" to="/" >
-        <span  >
-          Connect &nbsp; <i class="fab fa-line fa-lg"></i>
+          <router-link class="navbar-item" to="/line" >
+        <span>
+          Connect &nbsp; <i class="fab fa-line fa-lg green"></i>
         </span>
         </router-link>
 
@@ -93,6 +93,9 @@ import {mapGetters} from 'vuex'
   .btn:hover, active{
     background:rgba(0, 0, 0, .03);
   }
+  .green{
+    color:#1FC923;
+}
   .pointer{
     cursor: pointer;
   }
