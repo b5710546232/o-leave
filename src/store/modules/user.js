@@ -13,6 +13,7 @@ const state = {
     lname: '',
     telno: '',
     line: '',
+    isLoaded: false,
     supervisor_id: null},
   OTP: ''
 }
@@ -40,6 +41,7 @@ const actions = {
         lname: res.lname,
         telno: res.telno,
         line: res.line,
+        isLoaded: true,
         supervisor_id: res.supervisor_id
       }
       commit('setUserState', userState)

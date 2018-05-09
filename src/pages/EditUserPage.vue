@@ -117,6 +117,10 @@
     export default {
         name: 'EditUserPage',
         mounted() {
+            if(this.userInfo.isLoaded){
+                this.mapDataToForm()
+                return
+            }
             this.fetchGetMe()
             this.actionURL = `${baseURL}/me/upload_image`
         },
@@ -193,7 +197,6 @@
                 fullscreen: true
             })
             return this.$store.dispatch('getMe', this.token).then(() => {
-                this.imageUrl = this.userInfo.image_path
                 this.mapDataToForm()
             }).then(() => {
                 loadingInstance.close()
@@ -203,7 +206,6 @@
                 let loadingInstance = Loading.service({
                     fullscreen: true
                 })
-                console.log(this.imageFile)
                 this.$store.dispatch('uploadProfile', this.imageFile.raw).then(() => {
                     return this.fetchGetMe()
                 }).then(()=>{
@@ -223,6 +225,8 @@
                 this.editForm.line = this.userInfo.line
                 this.editForm.ig = this.userInfo.ig
                 this.editForm.telno = this.userInfo.telno
+
+                this.imageUrl = this.userInfo.image_path
             },
             checkEnter() {
                 this.onSubmitEdit()
@@ -246,7 +250,11 @@
                     department: this.editForm.department
                 }
 
-                this.$store.dispatch('updateUser', payload).then(() => {
+                this.$store.dispatch('updateUser', payload)
+                .then(()=>{
+                    return this.fetchGetMe()
+                })
+                .then(() => {
                     loadingInstance.close()
                 }).catch((err) => {
                     loadingInstance.close()
