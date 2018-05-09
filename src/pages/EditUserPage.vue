@@ -329,6 +329,7 @@
         z-index: 1;
         position: relative;
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .2);
+        object-fit: cover;
     }
     
     .edit-form {
