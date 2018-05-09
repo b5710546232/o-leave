@@ -1,4 +1,4 @@
-import axios, {DefaultHeaders} from './axios'
+import axios, {DefaultHeaders} from './base'
 
 const getAllTask = (headers = DefaultHeaders) => {
   return axios.get('/tasks', {
@@ -21,7 +21,7 @@ const getMyTask = (headers = DefaultHeaders) => {
 }
 
 const postTask = (payload, headers = DefaultHeaders) => {
-  return axios.post('/tasks', payload , {
+  return axios.post('/tasks', payload, {
     'headers': headers
   }).then((res) => {
     return res.data
