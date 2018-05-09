@@ -30,9 +30,9 @@
 
         <div class="navbar-end">
           <div class="navbar-item has-dropdown is-hoverable">
-            <span class="navbar-item pointer btn">
-                <img class="avatar" :src="avatarUrl" alt="" width="20" height="20" >
-          Jub warata
+            <span class="navbar-item avatar-container pointer btn">
+                <img class="avatar" :src="userInfo.image_path" alt="" width="20" height="20" >
+          {{userInfo.fname}} {{userInfo.lname}}
         </span>
             <div class="navbar-dropdown is-right">
               <router-link class="navbar-item" to="edituserprofile">
@@ -56,12 +56,11 @@ import {mapGetters} from 'vuex'
     name: "Navbar",
     data() {
       return {
-        avatarUrl:'',
         isActive:false,
+        avatarUrl:''
       };
     },
     mounted(){
-      this.avatarUrl = this.userInfo.image_path
     },
     computed: {
       ...mapGetters(['userInfo'])

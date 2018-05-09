@@ -1,4 +1,4 @@
-import user from '@/api/user'
+import user, {getAccessToken} from '@/api/user'
 import {URL} from '@/api/base'
 // initial state
 const state = {
@@ -25,7 +25,7 @@ const getters = {
 
 // actions
 const actions = {
-  getMe ({ commit, state }, token) {
+  getMe ({ commit, state }, token = getAccessToken()) {
     return user.getMe(token).then(res => {
       console.log('actions', res)
       let userState = {

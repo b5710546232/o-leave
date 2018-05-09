@@ -12,7 +12,7 @@ const getMe = (token = getAccessToken()) => {
     return error
   })
 }
-const getAccessToken = () => {
+export const getAccessToken = () => {
   if (localStorage.getItem('token_type') && localStorage.getItem('access_token')) {
     return `${localStorage.getItem('token_type')} ${localStorage.getItem('access_token')}`
   }

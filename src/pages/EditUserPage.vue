@@ -6,7 +6,7 @@
                 <div>
                     <div class="colmuns is-12">
                         <div class="avatar-container">
-                            <el-upload class="avatar-uploader" :action="''" :headers="headers" :on-change="handlePictureCardPreview" :show-file-list="false" :auto-upload="false">
+                            <el-upload class="avatar-uploader" :action="''" :on-change="handlePictureCardPreview" :show-file-list="false" :auto-upload="false">
                                 <i :class="{'el-icon-plus avatar-uploader-icon':imageUrl,'el-icon-plus avatar-uploader-icon p-relative':!imageUrl}"></i>
                                 <img class="avatar" width="178" height="178" v-if="imageUrl" :src="imageUrl">
                             </el-upload>
@@ -117,21 +117,7 @@
     export default {
         name: 'EditUserPage',
         mounted() {
-            let loadingInstance = Loading.service({
-                fullscreen: true
-            })
-    
-            this.headers = {
-                headers: {
-                    'Authorization': this.token
-                }
-            }
-            this.$store.dispatch('getMe', this.token).then(() => {
-                this.imageUrl = this.userInfo.image_path
-                this.mapDataToForm()
-            }).then(() => {
-                loadingInstance.close()
-            })
+            this.fetchGetMe()
             this.actionURL = `${baseURL}/me/upload_image`
         },
         computed: {
@@ -152,7 +138,6 @@
                 },
                 imageUrl: '',
                 actionURL: '',
-                headers: {},
                 imageFile: '',
                 rules: {
                     firstname: [{
@@ -203,12 +188,25 @@
                 console.log('handleSucess', res, file)
                 this.imageUrl = URL.createObjectURL(file.raw);
             },
+            fetchGetMe(){
+                let loadingInstance = Loading.service({
+                fullscreen: true
+            })
+            return this.$store.dispatch('getMe', this.token).then(() => {
+                this.imageUrl = this.userInfo.image_path
+                this.mapDataToForm()
+            }).then(() => {
+                loadingInstance.close()
+            })
+            },
             submitUpload() {
                 let loadingInstance = Loading.service({
                     fullscreen: true
                 })
                 console.log(this.imageFile)
                 this.$store.dispatch('uploadProfile', this.imageFile.raw).then(() => {
+                    return this.fetchGetMe()
+                }).then(()=>{
                     loadingInstance.close()
                 }).catch((err) => {
                     loadingInstance.close()

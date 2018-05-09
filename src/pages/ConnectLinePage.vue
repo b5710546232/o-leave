@@ -46,13 +46,7 @@
                 let loadingInstance = Loading.service({
                     fullscreen: true
                 })
-    
-                this.headers = {
-                    headers: {
-                        'Authorization': this.token
-                    }
-                }
-                this.$store.dispatch('getMe', this.token).then(() => {
+                return this.$store.dispatch('getMe', this.token).then(() => {
                     this.mapImgQR()
                     loadingInstance.close()
                 })
@@ -80,6 +74,10 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+    .box-card{
+          display: flex;
+          align-items: center;
+    }
     .root {}
     
     .header {
