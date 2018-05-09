@@ -12,6 +12,7 @@ const state = {
     fname: '',
     lname: '',
     telno: '',
+    line: '',
     supervisor_id: null}
 }
 
@@ -36,6 +37,7 @@ const actions = {
         fname: res.fname,
         lname: res.lname,
         telno: res.telno,
+        line: res.line,
         supervisor_id: res.supervisor_id
       }
       commit('setUserState', userState)
@@ -43,6 +45,9 @@ const actions = {
   },
   uploadProfile ({commit, state}, file) {
     return user.uploadProfile(file)
+  },
+  updateUser ({commit, state}, payload) {
+    return user.updateUser(payload)
   }
 }
 

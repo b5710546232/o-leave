@@ -45,7 +45,7 @@ const getSupervisor = () => {
   })
 }
 
-const updateUserByID = (payload) => {
+const updateUser = (payload) => {
   const config = {
     headers: {
       'Authorization': getAccessToken()
@@ -124,7 +124,7 @@ export default {
   getAccessToken,
   getHeaders,
   uploadProfile,
-  updateUserByID,
+  updateUser,
   getAllUser,
   adminUpdateUserByID,
   getSupervisor,
