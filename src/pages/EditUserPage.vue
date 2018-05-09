@@ -8,7 +8,7 @@
                         <div class="avatar-container">
                             <el-upload class="avatar-uploader" :action="''" :on-change="handlePictureCardPreview" :show-file-list="false" :auto-upload="false">
                                 <i :class="{'el-icon-plus avatar-uploader-icon':imageUrl,'el-icon-plus avatar-uploader-icon p-relative':!imageUrl}"></i>
-                                <img class="avatar" width="178" height="178" v-if="imageUrl" :src="imageUrl">
+                                <img @error="handleImgError" class="avatar" width="178" height="178" v-if="imageUrl" :src="imageUrl">
                             </el-upload>
                         </div>
                         <div v-if="!imageFile">Select your new profile</div>
@@ -272,6 +272,11 @@
                 }
                 return isLt2M;
             },
+             handleImgError(){
+        const DEFAULT_IMG ='../../static/images/blank_profile.png'
+        // this.$store.dispatch('setUserInfoImagePath',DEFAULT_IMG)
+        this.imageUrl = DEFAULT_IMG
+      },
             handlePictureCardPreview(file) {
                 if (this.beforeAvatarUpload(file)) {
                     this.imageUrl = file.url;

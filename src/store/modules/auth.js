@@ -36,7 +36,9 @@ const actions = {
         localStorage.setItem('accessToken', token)
         commit('setToken', token)
         commit('setLoginStatus', true)
-      }).catch(err => {
+        return res
+      })
+      .catch(err => {
         localStorage.setItem('accessToken', '')
         console.error(err)
         commit('setToken', '')

@@ -30,10 +30,12 @@
 
         <div class="navbar-end">
           <div class="navbar-item has-dropdown is-hoverable">
-            <span class="navbar-item avatar-container pointer btn">
-                <img class="avatar" :src="userInfo.image_path" alt="" width="20" height="20" >
+            <router-link class="navbar-item avatar-container pointer btn" to="/profile">
+                <img class="avatar" :src="userInfo.image_path"  width="20" height="20"
+                @error="handleImgError"
+                >
           {{userInfo.fname}} {{userInfo.lname}}
-        </span>
+        </router-link>
             <div class="navbar-dropdown is-right">
               <router-link class="navbar-item" to="edituserprofile">
               Edit profile
@@ -75,6 +77,10 @@ import {mapGetters} from 'vuex'
       },
       openLineMessageBox(){
         
+      },
+      handleImgError(){
+        const DEFAULT_IMG ='../../static/images/blank_profile.png'
+        this.$store.dispatch('setUserInfoImagePath',DEFAULT_IMG)
       },
       routeByRole(){
         let role = this.userInfo.role

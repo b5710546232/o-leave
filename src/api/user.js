@@ -1,5 +1,12 @@
 import axios from './base'
 
+export const getAccessToken = () => {
+  if (localStorage.getItem('accessToken')) {
+    return localStorage.getItem('accessToken')
+  }
+  return false
+}
+
 const getMe = (token = getAccessToken()) => {
   const config = {
     headers: {
@@ -12,13 +19,6 @@ const getMe = (token = getAccessToken()) => {
     return error
   })
 }
-export const getAccessToken = () => {
-  if (localStorage.getItem('token_type') && localStorage.getItem('access_token')) {
-    return `${localStorage.getItem('token_type')} ${localStorage.getItem('access_token')}`
-  }
-  return false
-}
-
 const getAllUser = () => {
   const config = {
     headers: {

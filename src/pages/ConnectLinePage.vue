@@ -76,6 +76,7 @@
 <style scoped>
     .box-card{
           display: flex;
+          justify-content: center;
           align-items: center;
     }
     .root {}

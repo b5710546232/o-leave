@@ -6,6 +6,7 @@ import SubordinatePage from '@/pages/SubordinatePage'
 import SupervisorPage from '@/pages/SupervisorPage'
 import EditUserPage from '@/pages/EditUserPage'
 import ConnectLinePage from '@/pages/ConnectLinePage'
+import ProfilePage from '@/pages/ProfilePage'
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
       path: '/line',
       name: 'ConnectLinePage',
       component: ConnectLinePage
+    },
+    {
+      path: '/profile',
+      name: 'ProfilePage',
+      component: ProfilePage
     }
 
   ]

@@ -61,6 +61,9 @@ const actions = {
   },
   setOTP ({commit, state}, otp) {
     commit('setOTP', otp)
+  },
+  setUserInfoImagePath ({commit, state}, imagePath) {
+    commit('setUserInfoImagePath', imagePath)
   }
 }
 
@@ -71,6 +74,9 @@ const mutations = {
   },
   setOTP (state, otp) {
     state.OTP = otp
+  },
+  setUserInfoImagePath (state, imagePath) {
+    state.userInfo.image_path = imagePath
   }
 
 }
