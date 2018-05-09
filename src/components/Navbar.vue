@@ -2,9 +2,10 @@
   <div class="root">
     <nav class="navbar" v-if="$route.name!=='LoginPage'">
       <div class="navbar-brand">
-        <router-link class="navbar-item" to="/">
-          <img src="../assets/logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="auto" height="150">
-        </router-link>
+
+        <span class="navbar-item pointer btn" @click="routeByRole">
+          <img src="../assets/logo.png" alt="" width="auto" height="150">
+        </span>
 
         <div ref="burger" :class="{'navbar-burger burger is-active':isActive,'navbar-burger burger':!isActive}" data-target="oleaveNavbar" @click="toggleNavbar">
           <span></span>
@@ -15,20 +16,25 @@
   
       <div ref="menu" :class="{'navbar-menu is-active':isActive,'navbar-menu':!isActive}">
         <div class="navbar-start">
-          <router-link class="navbar-item" to="/">
+          <span class="navbar-item pointer btn" @click="routeByRole">
               Home
-          </router-link>
+          </span>
+
+          <router-link class="navbar-item" to="/line" >
+        <span>
+          Connect &nbsp; <i class="fab fa-line fa-lg green"></i>
+        </span>
+        </router-link>
+
         </div>
-  
+
         <div class="navbar-end">
           <div class="navbar-item has-dropdown is-hoverable">
-            <span class="navbar-item pointer">
+            <span class="navbar-item pointer btn">
+                <img class="avatar" :src="avatarUrl" alt="" width="20" height="20" >
           Jub warata
         </span>
             <div class="navbar-dropdown is-right">
-              <a class="navbar-item">
-              Your profile
-            </a>
               <router-link class="navbar-item" to="edituserprofile">
               Edit profile
             </router-link>
@@ -45,12 +51,20 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
   export default {
     name: "Navbar",
     data() {
       return {
-        isActive:false
+        avatarUrl:'',
+        isActive:false,
       };
+    },
+    mounted(){
+      this.avatarUrl = this.userInfo.image_path
+    },
+    computed: {
+      ...mapGetters(['userInfo'])
     },
     methods:{
       toggleNavbar(){
@@ -59,16 +73,34 @@
       onLogout(){
         localStorage.setItem('accessToken','')
         this.$router.go('/')
+      },
+      openLineMessageBox(){
+        
+      },
+      routeByRole(){
+        let role = this.userInfo.role
+        if(role){
+          this.$router.push(`/${String(role).toLowerCase()}`)
+        }
       }
     }
   };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
   .navbar {
     box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
   }
+  .btn:hover, active{
+    background:rgba(0, 0, 0, .03);
+  }
+  .green{
+    color:#1FC923;
+}
+.avatar{
+  margin-right:8px;
+}
   .pointer{
     cursor: pointer;
   }

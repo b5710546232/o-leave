@@ -45,7 +45,7 @@ const getSupervisor = () => {
   })
 }
 
-const updateUserByID = (payload) => {
+const updateUser = (payload) => {
   const config = {
     headers: {
       'Authorization': getAccessToken()
@@ -111,8 +111,7 @@ const getOTP = () => {
     }
   }
   return axios.get('/opt', config).then(res => {
-    console.log(res.data)
-    return res.data
+    return res.data.opt
   }).catch(err => {
     console.error(err)
     alert('error')
@@ -124,7 +123,7 @@ export default {
   getAccessToken,
   getHeaders,
   uploadProfile,
-  updateUserByID,
+  updateUser,
   getAllUser,
   adminUpdateUserByID,
   getSupervisor,
