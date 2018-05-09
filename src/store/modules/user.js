@@ -1,5 +1,5 @@
-import user from '../../api/user'
-
+import user from '@/api/user'
+import {URL} from '@/api/base'
 // initial state
 const state = {
   userInfo: { address: '',
@@ -32,7 +32,7 @@ const actions = {
         email: res.email,
         fb: res.fb,
         ig: res.ig,
-        image_path: res.image_path,
+        image_path: `${URL}${res.image_path}`,
         fname: res.fname,
         lname: res.lname,
         telno: res.telno,
@@ -40,6 +40,9 @@ const actions = {
       }
       commit('setUserState', userState)
     })
+  },
+  uploadProfile ({commit, state}, file) {
+    return user.uploadProfile(file)
   }
 }
 

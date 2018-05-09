@@ -13,9 +13,7 @@ import store from './store'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'bulma-start/css/main.css'
 import './styles/spacing.css'
-import 'font-awesome/css/font-awesome.css'
-
-Vue.config.productionTip = false
+// import 'font-awesome/css/font-awesome.css'
 Vue.use(Element, {
   locale
 })
