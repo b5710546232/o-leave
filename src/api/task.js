@@ -1,4 +1,10 @@
-import axios, {DefaultHeaders} from './base'
+import axios from './base'
+import {getAccessToken} from './user'
+
+const DefaultHeaders = {
+  'Content-Type': 'application/json',
+  'Authorization': getAccessToken()
+}
 
 const getAllTask = (headers = DefaultHeaders) => {
   return axios.get('/tasks', {

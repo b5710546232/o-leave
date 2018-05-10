@@ -25,7 +25,7 @@
                         <el-button class="login-btn" type="success btn" @click="onLogin('loginForm')">Log in</el-button>
                     </el-form-item>
                 </el-form>
-                <div class="error-text">{{errorMessage}}</div>
+                <div class="error-text">{{authErrorMessage}}</div>
             </el-card>
         </div>
         
@@ -81,7 +81,7 @@
       }
     },
     computed: {
-      ...mapGetters(['errorMessage', 'userInfo', 'token', 'isLogin'])
+      ...mapGetters(['authErrorMessage', 'userInfo', 'token', 'isLogin'])
     },
     methods: {
       checkEnter(event) {

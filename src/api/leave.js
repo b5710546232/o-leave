@@ -1,4 +1,6 @@
-import axios, {DefaultHeaders} from './base'
+import axios, {AuthHeaders} from './base'
+
+const DefaultHeaders = AuthHeaders
 
 const getAccessToken = () => {
   if (localStorage.getItem('accessToken')) {

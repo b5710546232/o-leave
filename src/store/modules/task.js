@@ -6,22 +6,27 @@ const state = {
 }
 
 // getters
-const getters = {}
+const getters = {
+  taskList: state => state.taskList,
+  inProgessTaskList: state => state.taskList.filter(task => task.status !== 'done')
+}
 
 // actions
 const actions = {
-  checkToken ({commit, state}) {
-    const token = localStorage.getItem('accessToken')
-    if (token) {
-      commit('setToken', token)
-    }
+  getMyTaskList ({commit, state}) {
+    return task.getMyTask()
+      .then(taskList => {
+        commit('setTaskList', taskList)
+        return taskList
+      })
+      .catch(err => err)
   }
 }
 
 // mutations
 const mutations = {
-  setTasks (state, token) {
-    state.token = token
+  setTaskList (state, taskList) {
+    state.taskList = taskList
   }
 
 }

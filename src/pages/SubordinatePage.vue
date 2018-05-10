@@ -9,31 +9,54 @@
               <p class="title">Request form</p>
               <el-form :model="requestForm" status-icon :rules="rules" ref="requestForm" label-width="100px" class="overflow-y">
 
-  <el-form-item label="Task ID" prop="pass">
-    <el-input type="password" v-model="requestForm.pass" auto-complete="off"></el-input>
+  <!-- <el-form-item label="Task" prop="task">
+    <el-input type="password" v-model="requestForm.task" auto-complete="off"></el-input>
+  </el-form-item> -->
+
+  <el-form-item label="Task" prop="task">
+                                        <el-select ref="task" v-model="requestForm.task" placeholder="Select...">
+                                            <el-option v-for="item in inProgessTaskList" :key="item.id" :label="item.name" :value="item.id">
+                                            </el-option>
+                                        </el-select>
+    </el-form-item>
+
+  <el-form-item label="Leave date" prop="leaveDate">
+     <el-date-picker
+     format="yyyy-MM-dd"
+      v-model="requestForm.leaveDate"
+      type="datetimerange"
+      range-separator="To"
+      start-placeholder="Start date"
+      end-placeholder="End date">
+    </el-date-picker>
   </el-form-item>
 
-  <el-form-item label="Start date" prop="checkPass">
-    <el-input type="password" v-model="requestForm.pass" auto-complete="off"></el-input>
+  <el-form-item label="Note" prop="note">
+    <el-input   type="textarea"
+  :rows="5" v-model="requestForm.note" auto-complete="off"></el-input>
   </el-form-item>
 
-<el-form-item label="End date" prop="checkPass">
-    <el-input type="password" v-model="requestForm.pass" auto-complete="off"></el-input>
-  </el-form-item>
+   <el-form-item label="Type" prop="type">
+                                        <el-select ref="type" v-model="requestForm.type" placeholder="Select...">
+                                            <el-option v-for="item in [
+                                                {
+                  value: 'Vacation leave',
+                  label: 'Vacation leave'
+                },
+                {
+                  value: 'Personal Errand leave',
+                  label: 'Personal Errand leave'
+                },
+                {
+                  value: 'Sick leave',
+                  label: 'Sick leave'
+                }]" :key="item.value" :label="item.label" :value="item.value">
+                                            </el-option>
+                                        </el-select>
+    </el-form-item>
 
-  <el-form-item label="Note" prop="checkPass">
-    <el-input type="password" v-model="requestForm.pass" auto-complete="off"></el-input>
-  </el-form-item>
-
-  <el-form-item label="Type" prop="checkPass">
-    <el-input type="password" v-model="requestForm.pass" auto-complete="off"></el-input>
-  </el-form-item>
-
-  <el-form-item label="Status" prop="checkPass">
-    <el-input type="password" v-model="requestForm.pass" auto-complete="off"></el-input>
-  </el-form-item>
   <el-form-item>
-    <el-button >Submit</el-button>
+    <el-button type="primary" @click="submitRequestForm" >Submit</el-button>
   </el-form-item>
 </el-form>
             </article>
@@ -72,8 +95,18 @@
     </div>
   </div>
 </template>
-
 <script>
+
+// Vacation leave
+// - Personal Errand leave
+// - Sick leave
+import moment from 'moment'
+import {
+    mapGetters
+  } from 'vuex'
+  import {
+    Loading
+  } from 'element-ui'
 var data, titles
 
 data = [{
@@ -115,9 +148,30 @@ export default {
   data () {
     return {
       requestForm:{
-        pass:''
+        task:'',
+        note:'',
+        pass:'',
+        leaveDate:[],
+        type:'Vacation leave',
+        status:'to-do'
       },
-      rules:{},
+      rules:{
+         task: [{
+                        required: true,
+                        message: 'Please input task',
+                        trigger: 'blur'
+                    }],
+                      leaveDate: [{
+                        required: true,
+                        message: 'Please input leave date',
+                        trigger: 'blur'
+                    }],
+                      type: [{
+                        required: true,
+                        message: 'Please input type',
+                        trigger: 'blur'
+                    }],
+      },
       data,
       titles,
       fcEvents : demoEvents,
@@ -170,7 +224,56 @@ export default {
       }
     }
   },
+  computed:{
+    ...mapGetters(['taskList','inProgessTaskList', 'userInfo','leaveMessage',])
+  },
+  mounted(){
+    let loadingInstance = Loading.service({
+          fullscreen: true
+        })
+    this.$store.dispatch('getMyTaskList')
+    .then(()=>{
+      loadingInstance.close()
+    })
+    .then(()=>{
+      if(this.userInfo.isLoaded){
+        return
+      }
+      this.fetchGetMe()
+    })
+  },
   methods: {
+    submitRequestForm(){
+      this.$refs['requestForm'].validate(valid => {
+                    if(valid){
+                      this.onSubmitRequest()
+                    }
+      })
+    },
+    onSubmitRequest(){
+      const payload = {
+        start:moment(this.requestForm.leaveDate[0]).format("YYYY-MM-DD"),
+        end:moment(this.requestForm.leaveDate[1]).format("YYYY-MM-DD"),
+        type:this.requestForm.type,
+        task_id:this.requestForm.task,
+        leaver_id:this.userInfo.id
+      }
+      let loadingInstance = Loading.service({
+          fullscreen: true
+        })
+      this.$store.dispatch('postLeaveForm',payload)
+      .then((res)=>{
+         this.$message({
+          message: `${this.leaveMessage}`,
+          type: 'success'
+        })
+        loadingInstance.close()
+      })
+      .catch(err=>{
+        this.$message.error(err.message);
+        loadingInstance.close()
+      })
+    },
     getRowActionsDef() {
       let self = this
       return [{
@@ -181,7 +284,16 @@ export default {
         },
         name: 'Edit'
       }]
-    }
+    },
+     fetchGetMe() {
+                let loadingInstance = Loading.service({
+                    fullscreen: true
+                })
+                return this.$store.dispatch('getMe', this.token).then(() => {
+                }).then(() => {
+                    loadingInstance.close()
+                })
+            }
   },
   components : {
 	  'full-calendar': require('vue-fullcalendar')	
@@ -191,6 +303,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+.el-date-editor{
+  width: 100%!important;
+}
+.el-range-separator{
+  margin:0 8px!important;
+}
   .overflow-y{
     overflow-y: auto;
   }
@@ -203,7 +321,14 @@ export default {
   .full-calendar-header {
     color: black !important;
   }
+  .el-date-range-picker__time-header{
+    display: none;
+  }
   .full-calendar-body {
     color: black !important;    
   }
+  .el-select {
+        width: 100%;
+    }
+
 </style>

@@ -213,7 +213,7 @@
                 }).catch((err) => {
                     loadingInstance.close()
                     console.error(err)
-                    this.$message.error('Upload picture has an error.');
+                    this.$message.error('Upload picture has an error.')
                 })
             },
              mapDataToForm(){
