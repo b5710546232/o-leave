@@ -83,6 +83,7 @@
                     </el-input>
                   </el-form-item>
                 </el-col>
+
                 <el-col :sm="12" :md="12">
                   <el-form-item label="Role" prop="role">
                     <el-select ref="role" v-model="addForm.role" placeholder="Select...">
@@ -103,6 +104,16 @@
                     </el-select>
                   </el-form-item>
                 </el-col>
+
+     <el-col v-if="addForm.role==='Subordinate'" :sm="12" :md="12">
+              <el-form-item label="Supervisor" prop="supervisor_id">
+                                        <el-select ref="task" v-model="addForm.supervisor_id" placeholder="Select...">
+                                            <el-option v-for="item in supervisorList" :key="item.id" :label="`${item.fname} ${item.lname}`" :value="String(item.id)">
+                                            </el-option>
+                                        </el-select>
+    </el-form-item>
+        </el-col>
+
               </el-row>
             </el-form>
             <el-button class="submit-btn text-center" type="primary btn" @click="onAddUser">Add</el-button>
@@ -123,17 +134,23 @@
   export default {
     name: "AddUserPage",
     computed: {
-      ...mapGetters(['adminMessage'])
+      ...mapGetters(['adminMessage','supervisorList'])
+    },
+    mounted(){
+      let loadingInstance = Loading.service({fullscreen: true})
+      this.$store.dispatch('getAllSupervisors').then(()=>{
+        loadingInstance.close()
+      }).catch(()=>{
+        loadingInstance.close()
+      })
     },
     methods: {
       checkEnter(){
         this.onAddUser()
       },
       addUser() {
-        let loadingInstance = Loading.service({
-          fullscreen: true
-        })
-            const payload = {
+        let loadingInstance = Loading.service({fullscreen: true})
+            let payload = {
             fname: this.addForm.firstname,
             lname: this.addForm.lastname,
             email: this.addForm.email,
@@ -146,6 +163,9 @@
             line: this.addForm.line,
             department: this.addForm.department,
             role: this.addForm.role
+          }
+          if(payload.role==='Subordinate'){
+              payload['supervisor_id'] = this.addForm.supervisor_id
           }
         return this.$store.dispatch('addUser',payload)
           .then(() => {
@@ -187,6 +207,16 @@
           callback()
         }
       }
+
+      const checkSupervisor = (rule,value,callback)=>{
+        if(this.addForm.role==='Subordinate'){
+           if (value === "") {
+          callback(new Error("Please input the supervisor again"))
+        } else {
+          callback()
+        }
+        }
+      }
       return {
         msg: "Welcome to Your Vue.js Login",
         addForm: {
@@ -200,7 +230,8 @@
           fb: "",
           ig: "",
           line: "",
-          department: ""
+          department: "",
+          supervisor_id:''
         },
         imageUrl: "",
         actionURL: "",
@@ -260,6 +291,10 @@
             validator: checkConfirmPass,
             trigger: "blur",
             required: true
+          }],
+          supervisor_id:[{
+            validate:checkSupervisor,
+            trigger:'blur'
           }],
           role: [{
             required: true,

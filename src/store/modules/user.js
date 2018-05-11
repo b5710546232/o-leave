@@ -16,13 +16,15 @@ const state = {
     isLoaded: false,
     id: '',
     supervisor_id: null},
-  OTP: ''
+  OTP: '',
+  supervisorList: []
 }
 
 // getters
 const getters = {
   userInfo: state => state.userInfo,
-  OTP: state => state.OTP
+  OTP: state => state.OTP,
+  supervisorList: state => state.supervisorList
 }
 
 // actions
@@ -52,6 +54,11 @@ const actions = {
   uploadProfile ({commit, state}, file) {
     return user.uploadProfile(file)
   },
+  getAllSupervisors ({commit, state}) {
+    return user.getAllSupervisors().then(supsList => {
+      commit('setSupervisorList', supsList)
+    }).catch(err => { throw (err) })
+  },
   updateUser ({commit, state}, payload) {
     return user.updateUser(payload)
   },
@@ -79,6 +86,9 @@ const mutations = {
   },
   setUserInfoImagePath (state, imagePath) {
     state.userInfo.image_path = imagePath
+  },
+  setSupervisorList (state, newList) {
+    state.supervisorList = newList
   }
 
 }

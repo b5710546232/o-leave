@@ -32,7 +32,7 @@ const getAllUser = () => {
   })
 }
 
-const getSupervisor = () => {
+const getAllSupervisors = () => {
   const config = {
     headers: {
       'Authorization': getAccessToken()
@@ -126,6 +126,6 @@ export default {
   updateUser,
   getAllUser,
   adminUpdateUserByID,
-  getSupervisor,
+  getAllSupervisors,
   getOTP
 }
