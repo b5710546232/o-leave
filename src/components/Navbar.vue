@@ -53,6 +53,9 @@
 </template>
 
 <script>
+    import {
+        Loading
+    } from 'element-ui';
 import {mapGetters} from 'vuex'
   export default {
     name: "Navbar",
@@ -63,11 +66,23 @@ import {mapGetters} from 'vuex'
       };
     },
     mounted(){
+      if(!this.userInfo.isLoaded){
+        this.fetchGetMe()
+      }
     },
     computed: {
       ...mapGetters(['userInfo'])
     },
     methods:{
+         fetchGetMe(){
+                let loadingInstance = Loading.service({
+                fullscreen: true
+            })
+            return this.$store.dispatch('getMe', this.token)
+            .then(() => {
+                loadingInstance.close()
+            })
+            },
       toggleNavbar(){
         this.isActive = !this.isActive
       },

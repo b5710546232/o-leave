@@ -1,34 +1,293 @@
 <template>
-  <div class="hello">
-      <h1>Add user page</h1>
+  <div class="root">
+    <div class="form-container">
+      <el-card class="box-card">
+        <h1 class="header">Add user</h1>
+        <div>
+          <div class="form">
+            <el-form class=" text-left" :model="addForm" status-icon :rules="rules" ref="addForm" label-width="100px" :label-position="'top'">
+              <el-row :gutter="30">
+                <el-col :sm="12" :md="12">
+                  <el-form-item label="First name" prop="firstname">
+                    <el-input ref="fname" type="text" v-model="addForm.firstname" auto-complete="off" @keyup.enter.native="checkEnter">
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+  
+                <el-col :sm="12" :md="12">
+                  <el-form-item label="Last name" prop="lastname">
+                    <el-input ref="lastname" type="text" v-model="addForm.lastname" auto-complete="off" @keyup.enter.native="checkEnter">
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+  
+                <el-col :sm="12" :md="12">
+                  <el-form-item label="Password" prop="password">
+                    <el-input ref="password" type="password" v-model="addForm.password" auto-complete="off" @keyup.enter.native="checkEnter">
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+  
+                <el-col :sm="12" :md="12">
+                  <el-form-item label="Confirm password" prop="confirmPassword">
+                    <el-input ref="confirmPassword" type="password" v-model="addForm.confirmPassword" auto-complete="off" @keyup.enter.native="checkEnter">
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+  
+                <el-col :sm="12" :md="12">
+                  <el-form-item label="Email" prop="email">
+                    <el-input ref="email" type="text" v-model="addForm.email" auto-complete="off" @keyup.enter.native="checkEnter">
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+  
+                <el-col :sm="12" :md="12">
+                  <el-form-item label="Address" prop="address">
+                    <el-input ref="address" type="text" v-model="addForm.address" auto-complete="off" @keyup.enter.native="checkEnter">
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+  
+                <el-col :sm="12" :md="12">
+                  <el-form-item label="Tel. number" prop="telno">
+                    <el-input ref="telno" type="text" v-model="addForm.telno" auto-complete="off" @keyup.enter.native="checkEnter">
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+  
+                <el-col :sm="12" :md="12">
+                  <el-form-item label="Facebook" prop="fb">
+                    <el-input ref="fb" type="text" v-model="addForm.fb" auto-complete="off" @keyup.enter.native="checkEnter">
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+  
+                <el-col :sm="12" :md="12">
+                  <el-form-item label="Instagram" prop="ig">
+                    <el-input ref="ig" type="text" v-model="addForm.ig" auto-complete="off" @keyup.enter.native="checkEnter">
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+  
+                <el-col :sm="12" :md="12">
+                  <el-form-item label="Line" prop="line">
+                    <el-input ref="line" type="text" v-model="addForm.line" auto-complete="off" @keyup.enter.native="checkEnter">
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+  
+                <el-col :sm="12" :md="12">
+                  <el-form-item label="Department" prop="department">
+                    <el-input ref="department" type="text" v-model="addForm.department" auto-complete="off" @keyup.enter.native="checkEnter">
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :sm="12" :md="12">
+                  <el-form-item label="Role" prop="role">
+                    <el-select ref="role" v-model="addForm.role" placeholder="Select...">
+                      <el-option v-for="item in [
+                                                    {
+                      value: 'Administrator',
+                      label: 'Administrator'
+                    },
+                    {
+                      value: 'Supervisor',
+                      label: 'Supervisor'
+                    },
+                    {
+                      value: 'Subordinate',
+                      label: 'Subordinate'
+                    }]" :key="item.value" :label="item.label" :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
+            <el-button class="submit-btn text-center" type="primary btn" @click="onAddUser">Add</el-button>
+          </div>
+        </div>
+      </el-card>
+    </div>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'AddUserPage',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js Login'
+  import {
+    Loading
+  } from 'element-ui';
+  import {
+    mapGetters
+  } from 'vuex'
+  export default {
+    name: "AddUserPage",
+    computed: {
+      ...mapGetters(['adminMessage'])
+    },
+    methods: {
+      checkEnter(){
+        this.onAddUser()
+      },
+      addUser() {
+        let loadingInstance = Loading.service({
+          fullscreen: true
+        })
+            const payload = {
+            fname: this.addForm.firstname,
+            lname: this.addForm.lastname,
+            email: this.addForm.email,
+            password: this.addForm.password,
+            c_password: this.addForm.confirmPassword,
+            address: this.addForm.address,
+            telno: this.addForm.telno,
+            fb: this.addForm.fb,
+            ig: this.addForm.ig,
+            line: this.addForm.line,
+            department: this.addForm.department,
+            role: this.addForm.role
+          }
+        return this.$store.dispatch('addUser',payload)
+          .then(() => {
+            this.$message({
+              message: `Create new a  user successfully`,
+              type: 'success'
+            })
+            loadingInstance.close()
+          }).catch(() => {
+            this.$message.error(`error ${this.adminMessage}`)
+            loadingInstance.close()
+          })
+      },
+      onAddUser() {
+        this.$refs['addForm'].validate(valid => {
+          if (valid) {
+            this.addUser()
+          }
+        })
+      }
+    },
+    data() {
+      const checkPass = (rule, value, callback) => {
+        if (value === "") {
+          callback(new Error("Please input the password"))
+        } else {
+          if (this.addForm.confirmPassword !== "") {
+            this.$refs.addForm.validateField("confirmPassword")
+          }
+          callback()
+        }
+      }
+      const checkConfirmPass = (rule, value, callback) => {
+        if (value === "") {
+          callback(new Error("Please input the password again"))
+        } else if (value !== this.addForm.password) {
+          callback(new Error("Two inputs don't match!"))
+        } else {
+          callback()
+        }
+      }
+      return {
+        msg: "Welcome to Your Vue.js Login",
+        addForm: {
+          firstname: "",
+          password: "",
+          confirmPassword: "",
+          role: "",
+          lastname: "",
+          address: "",
+          telno: "",
+          fb: "",
+          ig: "",
+          line: "",
+          department: ""
+        },
+        imageUrl: "",
+        actionURL: "",
+        imageFile: "",
+        rules: {
+          firstname: [{
+            required: true,
+            message: "Please input firstname",
+            trigger: "blur"
+          }],
+          lastname: [{
+            required: true,
+            message: "Please input lastname",
+            trigger: "blur"
+          }],
+          address: [{
+            required: true,
+            message: "Please input address",
+            trigger: "blur"
+          }],
+          telno: [{
+            required: true,
+            message: "Please input telephone number",
+            trigger: "blur"
+          }],
+          fb: [{
+            required: true,
+            message: "Please input facebook",
+            trigger: "blur"
+          }],
+          ig: [{
+            required: true,
+            message: "Please input instagram",
+            trigger: "blur"
+          }],
+          line: [{
+            required: true,
+            message: "Please input line",
+            trigger: "blur"
+          }],
+          email: [{
+            required: true,
+            message: 'Please input email address',
+            trigger: 'blur'
+          }],
+          department: [{
+            required: true,
+            message: "Please select department",
+            trigger: "change"
+          }],
+          password: [{
+            validator: checkPass,
+            trigger: "blur",
+            required: true
+          }],
+          confirmPassword: [{
+            validator: checkConfirmPass,
+            trigger: "blur",
+            required: true
+          }],
+          role: [{
+            required: true,
+            message: "Please input role",
+            trigger: "blur"
+          }]
+        }
+      }
     }
   }
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+  .form-container {
+    margin: 16px 16px;
+  }
+  
+  .header {
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+  }
+  
+  .el-select {
+    width: 100%;
+  }
+  
+  .text-left {
+    text-align: left;
+  }
 </style>

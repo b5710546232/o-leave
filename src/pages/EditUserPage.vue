@@ -32,6 +32,20 @@
                                         </el-input>
                                     </el-form-item>
                                 </el-col>
+
+                                     <el-col :sm="12" :md="12">
+                  <el-form-item label="Password" prop="password">
+                    <el-input ref="password" type="password" v-model="editForm.address" auto-complete="off" @keyup.enter.native="checkEnter">
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+  
+                <el-col :sm="12" :md="12">
+                  <el-form-item label="Confirm password" prop="confirmPassword">
+                    <el-input ref="confirmPassword" type="password" v-model="editForm.confirmPassword" auto-complete="off" @keyup.enter.native="checkEnter">
+                    </el-input>
+                  </el-form-item>
+                </el-col>
     
                                 <el-col :sm="12" :md="12">
                                     <el-form-item label="Address" prop="address">
@@ -121,13 +135,31 @@
                 this.mapDataToForm()
                 return
             }
-            this.fetchGetMe()
             this.actionURL = `${baseURL}/me/upload_image`
         },
         computed: {
             ...mapGetters(['token', 'userInfo'])
         },
         data() {
+            const checkPass = (rule, value, callback) => {
+        if (value === "") {
+          callback(new Error("Please input the password"))
+        } else {
+          if (this.editForm.confirmPassword !== "") {
+            this.$refs.editForm.validateField("confirmPassword")
+          }
+          callback()
+        }
+      }
+      const checkConfirmPass = (rule, value, callback) => {
+        if (value === "") {
+          callback(new Error("Please input the password again"))
+        } else if (value !== this.editForm.password) {
+          callback(new Error("Two inputs don't match!"))
+        } else {
+          callback()
+        }
+      }
             return {
                 msg: 'Welcome to Your Vue.js Login',
                 editForm: {
@@ -144,6 +176,16 @@
                 actionURL: '',
                 imageFile: '',
                 rules: {
+                       password: [{
+            validator: checkPass,
+            trigger: "blur",
+            required: true
+          }],
+          confirmPassword: [{
+            validator: checkConfirmPass,
+            trigger: "blur",
+            required: true
+          }],
                     firstname: [{
                         required: true,
                         message: 'Please input firstname',

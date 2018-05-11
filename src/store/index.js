@@ -6,6 +6,7 @@ import user from './modules/user'
 import supervisor from './modules/supervisor'
 import task from './modules/task'
 import leave from './modules/leave'
+import admin from './modules/admin'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -14,6 +15,7 @@ export default new Vuex.Store({
     user,
     supervisor,
     task,
-    leave
+    leave,
+    admin
   }
 })
