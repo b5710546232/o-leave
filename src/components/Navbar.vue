@@ -25,6 +25,10 @@
           Connect &nbsp; <i class="fab fa-line fa-lg green"></i>
         </span>
         </router-link>
+        
+          <router-link v-if="userInfo.role==='Administrator'" class="navbar-item" to="/adduser" >
+          Add user
+        </router-link>
 
         </div>
 
