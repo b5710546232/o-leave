@@ -17,7 +17,7 @@
     
     
                     <div class="edit-form">
-                        <el-form :model="editForm" status-icon :rules="rules" ref="editForm" label-width="100px" :label-position="'left'">
+                        <el-form :model="editForm" status-icon :rules="rules" ref="editForm" label-width="140px" :label-position="'left'">
                             <el-row :gutter="30">
                                 <el-col :sm="12" :md="12">
                                     <el-form-item label="First name" prop="firstname">
@@ -35,7 +35,7 @@
 
                                      <el-col :sm="12" :md="12">
                   <el-form-item label="Password" prop="password">
-                    <el-input ref="password" type="password" v-model="editForm.address" auto-complete="off" @keyup.enter.native="checkEnter">
+                    <el-input ref="password" type="password" v-model="editForm.password" auto-complete="off" @keyup.enter.native="checkEnter">
                     </el-input>
                   </el-form-item>
                 </el-col>
@@ -219,7 +219,7 @@
                     line: [{
                         required: true,
                         message: 'Please input line',
-                        trigger: 'blur,change'
+                        trigger: 'blur'
                     }],
                     department: [{
                         required: true,
