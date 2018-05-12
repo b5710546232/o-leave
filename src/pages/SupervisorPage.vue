@@ -3,29 +3,25 @@
     <div class="tile is-ancestor">
       <div class="tile is-vertical">
         <div class="tile">
+          <!-- Supervisor Taks -->
+          <transition mode="out-in">
+            <supervisor-task v-if="!isCreateTask"/>
+            <supervisor-create-task v-else/>
+            <!-- <component :is="supTask"></component> -->
+          </transition>
+          <!-- Supervisor Taks -->
           <div class="tile is-parent">
-            <article class="tile is-child notification is-info">
-              <p class="title">Subordinate Tasks</p>
-              <p class="subtitle">With an image</p>
-              <data-tables :data="data" :actions-def="actionsDef" :checkbox-filter-def="checkFilterDef">
-                <el-table-column v-for="title in taskTitles" :prop="title.prop" :label="title.label" sortable="custom" :key="title.id">
-                </el-table-column>
-              </data-tables>
-            </article>
-          </div>
-          <div class="tile is-parent">
-            <article class="tile is-child notification is-info">
+            <article class="tile is-child box-card">
               <p class="title">Pending Leave</p>
-              <p class="subtitle">With an image</p>
-              <data-tables :data="data" :actions-def="actionsDef" :checkbox-filter-def="checkFilterDef" :action-col-def="actionColDef">
+              <!-- <data-tables :data="data" :actions-def="actionsDef" :checkbox-filter-def="checkFilterDef" :action-col-def="actionColDef">
                 <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" sortable="custom" :key="title.id">
                 </el-table-column>
-              </data-tables>
+              </data-tables> -->
             </article>
           </div>
         </div>
         <div class="tile is-parent">
-          <article class="tile is-child notification is-danger">
+          <article class="tile is-child box-card">
             <p class="title">Calendar</p>
             <full-calendar :events="fcEvents"></full-calendar>
           </article>
@@ -37,38 +33,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
-var data, taskTitles
-
-data = [{
-    "content": "Water flood",
-    "flow_no": "FW201601010001",
-    "flow_type": "Repair",
-    "flow_type_code": "repair",
-    }, {
-    "content": "Lock broken",
-    "flow_no": "FW201601010002",
-    "flow_type": "Repair",
-    "flow_type_code": "repair",
-    }, {
-    "content": "Help to buy some drinks",
-    "flow_no": "FW201601010003",
-    "flow_type": "Help",
-    "flow_type_code": "help"
-}]
-
-taskTitles = [{
-  prop: "flow_no",
-  label: "Start Date"
-  }, {
-  prop: "content",
-  label: "End Date"
-  }, {
-  prop: "flow_type",
-  label: "Name" 
-  }, {
-  prop: "flow_type",
-  label: "Type", 
-}]
+import SupervisorTask from '../components/SupervisorTask'
+import SupervisorCreateTask from '../components/SupervisorCreateTask'
 var demoEvents = [
 	{
     title : 'Sunny Out of Office',
@@ -80,56 +46,8 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      data,
-      taskTitles,
-      fcEvents : demoEvents,
-      actionsDef: {
-          colProps: {
-            span: 5
-          },
-          def: [{
-            name: 'new',
-            handler: () => {
-              this.data.push({
-                'content': 'hello world',
-                'flow_no': 'FW201601010004',
-                'flow_type': 'Help',
-                'flow_type_code': 'help',
-              })
-            },
-            buttonProps: {
-              type: 'text'
-            }
-          }]
-        },
-        checkFilterDef: {
-          props: 'flow_type_code',
-          def: [{
-            'code': 'repair',
-            'name': 'Repair'
-          }, {
-            'code': 'help',
-            'name': 'Help'
-          }]
-      },
-      actionColDef: {
-        label: 'Actions',
-        def: [{
-          handler: row => {
-            this.$message('Edit clicked')
-            row.flow_no = "hello word"
-          },
-          name: 'Edit'
-        }, {
-          icon: 'message',
-          type: 'text',
-          handler: row => {
-            this.$message('RUA in row clicked')
-            console.log('RUA in row clicked', row)
-          },
-          name: 'RUA'
-        }]
-      }
+      supTask: this.isCreateTask ? 'supervisor-create-task': 'supervisor-task',
+      fcEvents: demoEvents
     }
   },
   methods: {
@@ -146,23 +64,45 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('getTasks')
   },
   computed: {
-    ...mapGetters(['errorMessage', 'userInfo', 'token', 'isLogin'])
+    ...mapGetters(['errorMessage', 'userInfo', 'token', 'isLogin', 'tasks', 'isCreateTask'])
   },
   components : {
-	  'full-calendar': require('vue-fullcalendar')	
+    'full-calendar': require('vue-fullcalendar'),
+    SupervisorTask,
+    SupervisorCreateTask
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+.el-date-editor{
+  width: 100%!important;
+}
+.el-range-separator{
+  margin:0 8px!important;
+}
+  .overflow-y{
+    overflow-y: auto;
+  }
+  .box-card{
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .2);
+    border-radius: 3px;
+    padding: 1.25rem 2.5rem 1.25rem 1.5rem;
+    position: relative;
+  }
   .full-calendar-header {
     color: black !important;
   }
+  .el-date-range-picker__time-header{
+    display: none;
+  }
   .full-calendar-body {
     color: black !important;    
+  }
+  .el-select {
+        width: 100%;
   }
 </style>
