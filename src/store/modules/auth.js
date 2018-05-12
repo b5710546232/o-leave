@@ -1,4 +1,5 @@
 import auth from '@/api/auth'
+import axios from '@/api/base'
 
 // initial state
 const state = {
@@ -34,6 +35,7 @@ const actions = {
           throw (res)
         }
         localStorage.setItem('accessToken', token)
+        axios.defaults.headers.common['Authorization'] = token
         commit('setToken', token)
         commit('setLoginStatus', true)
         return res

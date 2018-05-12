@@ -1,6 +1,4 @@
-import axios, {AuthHeaders} from './base'
-
-const DefaultHeaders = AuthHeaders
+import axios from './base'
 
 const getAllLeaves = () => {
   return axios.get('/leaves').then((res) => {
@@ -33,14 +31,14 @@ const getPendingLeave = () => {
     return error
   })
 }
-const confirmPendingLeave = (index, headers = DefaultHeaders) => {
+const confirmPendingLeave = (index) => {
   return axios.get('leaves/' + index + '/approve').then((res) => {
     return res.data
   }).catch(error => {
     return error
   })
 }
-const rejectPendingLeave = (index, headers = DefaultHeaders) => {
+const rejectPendingLeave = (index) => {
   return axios.get('leaves/' + index + '/deny').then((res) => {
     return res.data
   }).catch(error => {

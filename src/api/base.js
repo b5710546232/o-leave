@@ -18,6 +18,4 @@ export const AuthHeaders = {
 let instance = axios.create({
   baseURL: baseURL
 })
-const token = localStorage.getItem('accessToken')
-instance.defaults.headers.common['Authorization'] = token
 export default instance

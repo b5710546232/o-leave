@@ -49,7 +49,7 @@ const actions = {
         supervisor_id: res.supervisor_id
       }
       commit('setUserState', userState)
-    })
+    }).catch(err => { throw (err) })
   },
   uploadProfile ({commit, state}, file) {
     return user.uploadProfile(file)

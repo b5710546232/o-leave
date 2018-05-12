@@ -1,16 +1,17 @@
 import axios from './base'
 
-// export const getAccessToken = () => {
-//   if (localStorage.getItem('accessToken')) {
-//     return localStorage.getItem('accessToken')
-//   }
-//   return false
-// }
+export const getAccessToken = () => {
+  if (localStorage.getItem('accessToken')) {
+    return localStorage.getItem('accessToken')
+  }
+  return false
+}
 
 const getMe = () => {
   return axios.get('/me').then((res) => {
     return res.data
   }).catch(error => {
+    console.log('error getMe', error)
     throw (error)
   })
 }

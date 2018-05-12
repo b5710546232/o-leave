@@ -77,6 +77,8 @@
         this.$store.dispatch('getMe', this.token).then(() => {
           this.closeLoading(loadingInstance)
           this.routeByRole(this.userInfo.role)
+        }).catch(err=>{
+          this.closeLoading(loadingInstance)
         })
       }
     },
