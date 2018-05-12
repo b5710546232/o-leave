@@ -7,25 +7,16 @@ export const getAccessToken = () => {
   return false
 }
 
-const getMe = (token = getAccessToken()) => {
-  const config = {
-    headers: {
-      'Authorization': token
-    }
-  }
-  return axios.get('/me', config).then((res) => {
+const getMe = () => {
+  return axios.get('/me').then((res) => {
     return res.data
   }).catch(error => {
+    console.log('error getMe', error)
     throw (error)
   })
 }
 const getAllUser = () => {
-  const config = {
-    headers: {
-      'Authorization': getAccessToken()
-    }
-  }
-  return axios.get('/users', config).then((res) => {
+  return axios.get('/users').then((res) => {
     return res.data
   }).catch(error => {
     throw (error)
@@ -33,12 +24,7 @@ const getAllUser = () => {
 }
 
 const getAllSupervisors = () => {
-  const config = {
-    headers: {
-      'Authorization': getAccessToken()
-    }
-  }
-  return axios.get('/users/supervisors', config).then((res) => {
+  return axios.get('/users/supervisors').then((res) => {
     return res.data
   }).catch(error => {
     throw (error)
@@ -46,13 +32,8 @@ const getAllSupervisors = () => {
 }
 
 const updateUser = (payload) => {
-  const config = {
-    headers: {
-      'Authorization': getAccessToken()
-    }
-  }
   const url = `/users/1`
-  return axios.put(url, payload, config).then((res) => {
+  return axios.put(url, payload).then((res) => {
     return res.data
   }).catch(error => {
     throw (error)
@@ -60,30 +41,25 @@ const updateUser = (payload) => {
 }
 
 const adminUpdateUserByID = (id, payload) => {
-  const config = {
-    headers: {
-      'Authorization': getAccessToken()
-    }
-  }
   const url = `/users/${id}`
-  return axios.put(url, payload, config).then((res) => {
+  return axios.put(url, payload).then((res) => {
     return res.data
   }).catch(error => {
     throw (error)
   })
 }
 
-const getHeaders = () => {
-  const token = getAccessToken()
-  if (token) {
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: token
-    }
-    return headers
-  }
-  return null
-}
+// const getHeaders = () => {
+//   const token = getAccessToken()
+//   if (token) {
+//     const headers = {
+//       'Content-Type': 'application/json',
+//       Authorization: token
+//     }
+//     return headers
+//   }
+//   return null
+// }
 
 const uploadProfile = (file, name = 'images') => {
   const url = '/me/upload_image'
@@ -96,7 +72,6 @@ const uploadProfile = (file, name = 'images') => {
   formData.append(name, file)
   const config = {
     headers: {
-      'Authorization': getAccessToken(),
       'Content-Type': 'application/x-www-form-urlencoded'
     }
   }
@@ -106,7 +81,6 @@ const uploadProfile = (file, name = 'images') => {
 const getOTP = () => {
   const config = {
     headers: {
-      'Authorization': getAccessToken(),
       'Content-Type': 'application/x-www-form-urlencoded'
     }
   }
@@ -120,8 +94,6 @@ const getOTP = () => {
 
 export default {
   getMe,
-  getAccessToken,
-  getHeaders,
   uploadProfile,
   updateUser,
   getAllUser,

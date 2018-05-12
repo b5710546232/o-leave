@@ -1,9 +1,7 @@
-import axios, {AuthHeaders} from './base'
+import axios from './base'
 
-const registerUser = (payload, headers = AuthHeaders) => {
-  return axios.post('/register', payload, {
-    'headers': headers
-  }).then((res) => {
+const registerUser = (payload) => {
+  return axios.post('/register', payload).then((res) => {
     return res.data
   }).catch(error => {
     console.log('error', error)

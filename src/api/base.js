@@ -1,5 +1,6 @@
-import Axios from 'axios'
-import {getAccessToken} from './user'
+
+import axios from 'axios'
+// import {getAccessToken} from './user'
 export const URL = `http://vleave-back.ivaa.space`
 export const baseURL = `${URL}/api`
 // `http://vleave-back.ivaa.space`
@@ -10,10 +11,11 @@ export const DefaultHeaders = {
 }
 
 export const AuthHeaders = {
-  'Content-Type': 'application/json',
-  'Authorization': getAccessToken()
+  'Content-Type': 'application/json'
+  // 'Authorization': getAccessToken()
 }
 
-export default Axios.create({
+let instance = axios.create({
   baseURL: baseURL
 })
+export default instance
