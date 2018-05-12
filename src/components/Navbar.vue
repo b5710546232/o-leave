@@ -85,6 +85,8 @@ import {mapGetters} from 'vuex'
             return this.$store.dispatch('getMe', this.token)
             .then(() => {
                 loadingInstance.close()
+            }).catch(()=>{
+              loadingInstance.close()
             })
             },
       toggleNavbar(){
