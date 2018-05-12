@@ -16,7 +16,7 @@ const getMe = (token = getAccessToken()) => {
   return axios.get('/me', config).then((res) => {
     return res.data
   }).catch(error => {
-    return error
+    throw (error)
   })
 }
 const getAllUser = () => {
@@ -28,7 +28,7 @@ const getAllUser = () => {
   return axios.get('/users', config).then((res) => {
     return res.data
   }).catch(error => {
-    return error
+    throw (error)
   })
 }
 
@@ -41,7 +41,7 @@ const getAllSupervisors = () => {
   return axios.get('/users/supervisors', config).then((res) => {
     return res.data
   }).catch(error => {
-    return error
+    throw (error)
   })
 }
 
@@ -55,7 +55,7 @@ const updateUser = (payload) => {
   return axios.put(url, payload, config).then((res) => {
     return res.data
   }).catch(error => {
-    return error
+    throw (error)
   })
 }
 
@@ -69,7 +69,7 @@ const adminUpdateUserByID = (id, payload) => {
   return axios.put(url, payload, config).then((res) => {
     return res.data
   }).catch(error => {
-    return error
+    throw (error)
   })
 }
 

@@ -7,7 +7,7 @@ const login = (payload) => {
     })
     .catch(error => {
       console.error('[api]-login', error)
-      return error
+      throw (error)
     })
 }
 

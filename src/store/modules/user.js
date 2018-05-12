@@ -39,7 +39,7 @@ const actions = {
         email: res.email,
         fb: res.fb,
         ig: res.ig,
-        image_path: `${URL}${res.image_path}`,
+        image_path: `${URL}/${res.image_path}`,
         fname: res.fname,
         lname: res.lname,
         telno: res.telno,

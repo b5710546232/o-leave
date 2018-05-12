@@ -1,6 +1,6 @@
 import Axios from 'axios'
 import {getAccessToken} from './user'
-export const URL = `https://limitless-falls-39048.herokuapp.com/`
+export const URL = `http://vleave-back.ivaa.space`
 export const baseURL = `${URL}/api`
 // `http://vleave-back.ivaa.space`
 // `https://limitless-falls-39048.herokuapp.com/`

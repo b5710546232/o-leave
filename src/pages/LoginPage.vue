@@ -110,6 +110,9 @@
             console.log(this.userInfo.role, 'role')
             this.closeLoading(loadingInstance)
             this.routeByRole(this.userInfo.role)
+          }).catch((err)=>{
+            
+            this.closeLoading(loadingInstance)
           })
       },
       routeByRole(role) {

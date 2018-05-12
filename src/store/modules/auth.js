@@ -40,10 +40,10 @@ const actions = {
       })
       .catch(err => {
         localStorage.setItem('accessToken', '')
-        console.error(err)
         commit('setToken', '')
         commit('setLoginStatus', false)
         commit('setErrorMessege', err.message)
+        throw (err)
       })
   }
 }

@@ -33,7 +33,7 @@
                                     </el-form-item>
                                 </el-col>
 
-                                     <el-col :sm="12" :md="12">
+                                     <!-- <el-col :sm="12" :md="12">
                   <el-form-item label="Password" prop="password">
                     <el-input ref="password" type="password" v-model="editForm.password" auto-complete="off" @keyup.enter.native="checkEnter">
                     </el-input>
@@ -45,7 +45,7 @@
                     <el-input ref="confirmPassword" type="password" v-model="editForm.confirmPassword" auto-complete="off" @keyup.enter.native="checkEnter">
                     </el-input>
                   </el-form-item>
-                </el-col>
+                </el-col> -->
     
                                 <el-col :sm="12" :md="12">
                                     <el-form-item label="Address" prop="address">
@@ -135,6 +135,9 @@
                 this.mapDataToForm()
                 return
             }
+            else{
+                this.fetchGetMe()
+            }
             this.actionURL = `${baseURL}/me/upload_image`
         },
         computed: {
@@ -176,16 +179,16 @@
                 actionURL: '',
                 imageFile: '',
                 rules: {
-                       password: [{
-            validator: checkPass,
-            trigger: "blur",
-            required: true
-          }],
-          confirmPassword: [{
-            validator: checkConfirmPass,
-            trigger: "blur",
-            required: true
-          }],
+        //                password: [{
+        //     validator: checkPass,
+        //     trigger: "blur",
+        //     required: true
+        //   }],
+        //   confirmPassword: [{
+        //     validator: checkConfirmPass,
+        //     trigger: "blur",
+        //     required: true
+        //   }],
                     firstname: [{
                         required: true,
                         message: 'Please input firstname',
@@ -301,7 +304,7 @@
                 }).catch((err) => {
                     loadingInstance.close()
                     console.error(err)
-                    this.$message.error('Upload picture has an error.');
+                    this.$message.error(`${err.message}`)
                 })
                     }
                 })
