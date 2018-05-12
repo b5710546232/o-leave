@@ -4,7 +4,7 @@
       <div class="tile is-vertical">
         <div class="tile">
           <div class="tile is-parent">
-            <article class="tile is-child notification is-info">
+            <article class="tile is-child box-card">
               <p class="title">Subordinate Tasks</p>
               <p class="subtitle">With an image</p>
               <data-tables :data="data" :actions-def="actionsDef" :checkbox-filter-def="checkFilterDef">
@@ -14,7 +14,7 @@
             </article>
           </div>
           <div class="tile is-parent">
-            <article class="tile is-child notification is-info">
+            <article class="tile is-child box-card">
               <p class="title">Pending Leave</p>
               <p class="subtitle">With an image</p>
               <data-tables :data="data" :actions-def="actionsDef" :checkbox-filter-def="checkFilterDef" :action-col-def="actionColDef">
@@ -25,7 +25,7 @@
           </div>
         </div>
         <div class="tile is-parent">
-          <article class="tile is-child notification is-danger">
+          <article class="tile is-child box-card">
             <p class="title">Calendar</p>
             <full-calendar :events="fcEvents"></full-calendar>
           </article>
@@ -159,10 +159,32 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+.el-date-editor{
+  width: 100%!important;
+}
+.el-range-separator{
+  margin:0 8px!important;
+}
+  .overflow-y{
+    overflow-y: auto;
+  }
+  .box-card{
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .2);
+    border-radius: 3px;
+    padding: 1.25rem 2.5rem 1.25rem 1.5rem;
+    position: relative;
+  }
   .full-calendar-header {
     color: black !important;
+  }
+  .el-date-range-picker__time-header{
+    display: none;
   }
   .full-calendar-body {
     color: black !important;    
   }
+  .el-select {
+        width: 100%;
+    }
+
 </style>
