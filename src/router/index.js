@@ -4,6 +4,8 @@ import LoginPage from '@/pages/LoginPage'
 import AdminPage from '@/pages/AdminPage'
 import SubordinatePage from '@/pages/SubordinatePage'
 import SupervisorPage from '@/pages/SupervisorPage'
+import EditUserPage from '@/pages/EditUserPage'
+import ConnectLinePage from '@/pages/ConnectLinePage'
 
 Vue.use(Router)
 
@@ -28,6 +30,17 @@ export default new Router({
       path: '/supervisor',
       name: 'SupervisorPage',
       component: SupervisorPage
+    },
+    {
+      path: '/edituserprofile',
+      name: 'EditUserPage',
+      component: EditUserPage
+    },
+    {
+      path: '/line',
+      name: 'ConnectLinePage',
+      component: ConnectLinePage
     }
+
   ]
 })

@@ -1,5 +1,5 @@
-import user from '../../api/user'
-
+import user from '@/api/user'
+import {URL} from '@/api/base'
 // initial state
 const state = {
   userInfo: { address: '',
@@ -12,12 +12,15 @@ const state = {
     fname: '',
     lname: '',
     telno: '',
-    supervisor_id: null}
+    line: '',
+    supervisor_id: null},
+  OTP: ''
 }
 
 // getters
 const getters = {
-  userInfo: state => state.userInfo
+  userInfo: state => state.userInfo,
+  OTP: state => state.OTP
 }
 
 // actions
@@ -32,14 +35,30 @@ const actions = {
         email: res.email,
         fb: res.fb,
         ig: res.ig,
-        image_path: res.image_path,
+        image_path: `${URL}${res.image_path}`,
         fname: res.fname,
         lname: res.lname,
         telno: res.telno,
+        line: res.line,
         supervisor_id: res.supervisor_id
       }
       commit('setUserState', userState)
     })
+  },
+  uploadProfile ({commit, state}, file) {
+    return user.uploadProfile(file)
+  },
+  updateUser ({commit, state}, payload) {
+    return user.updateUser(payload)
+  },
+  getOTP ({commit, state}) {
+    return user.getOTP().then(otp => {
+      commit('setOTP', otp)
+      return otp
+    }).catch(err => err)
+  },
+  setOTP ({commit, state}, otp) {
+    commit('setOTP', otp)
   }
 }
 
@@ -47,6 +66,9 @@ const actions = {
 const mutations = {
   setUserState (state, userState) {
     state.userInfo = userState
+  },
+  setOTP (state, otp) {
+    state.OTP = otp
   }
 
 }
