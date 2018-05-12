@@ -30,6 +30,12 @@ export default {
   width: 100%;
   height: 100%;
 }
+.v-leave { opacity: 1; }
+.v-leave-active { transition: opacity .3s ease}
+.v-leave-to { opacity: 0; }
+.v-enter { opacity: 0; }
+.v-enter-active  { transition: opacity .3s ease }
+.v-enter-to { opacity: 1; }
 html,
 body {
   width: 100%;
