@@ -1,5 +1,12 @@
 import axios from './base'
 
+export const getAccessToken = () => {
+  if (localStorage.getItem('accessToken')) {
+    return localStorage.getItem('accessToken')
+  }
+  return false
+}
+
 const getMe = (token = getAccessToken()) => {
   const config = {
     headers: {
@@ -9,16 +16,9 @@ const getMe = (token = getAccessToken()) => {
   return axios.get('/me', config).then((res) => {
     return res.data
   }).catch(error => {
-    return error
+    throw (error)
   })
 }
-const getAccessToken = () => {
-  if (localStorage.getItem('token_type') && localStorage.getItem('access_token')) {
-    return `${localStorage.getItem('token_type')} ${localStorage.getItem('access_token')}`
-  }
-  return false
-}
-
 const getAllUser = () => {
   const config = {
     headers: {
@@ -28,11 +28,11 @@ const getAllUser = () => {
   return axios.get('/users', config).then((res) => {
     return res.data
   }).catch(error => {
-    return error
+    throw (error)
   })
 }
 
-const getSupervisor = () => {
+const getAllSupervisors = () => {
   const config = {
     headers: {
       'Authorization': getAccessToken()
@@ -41,7 +41,7 @@ const getSupervisor = () => {
   return axios.get('/users/supervisors', config).then((res) => {
     return res.data
   }).catch(error => {
-    return error
+    throw (error)
   })
 }
 
@@ -55,7 +55,7 @@ const updateUser = (payload) => {
   return axios.put(url, payload, config).then((res) => {
     return res.data
   }).catch(error => {
-    return error
+    throw (error)
   })
 }
 
@@ -69,7 +69,7 @@ const adminUpdateUserByID = (id, payload) => {
   return axios.put(url, payload, config).then((res) => {
     return res.data
   }).catch(error => {
-    return error
+    throw (error)
   })
 }
 
@@ -126,6 +126,6 @@ export default {
   updateUser,
   getAllUser,
   adminUpdateUserByID,
-  getSupervisor,
+  getAllSupervisors,
   getOTP
 }

@@ -1,8 +1,10 @@
-import axios, {DefaultHeaders} from './base'
+import axios, {AuthHeaders} from './base'
+
+const DefaultHeaders = AuthHeaders
 
 const getAccessToken = () => {
-  if (localStorage.getItem('token_type') && localStorage.getItem('access_token')) {
-    return `${localStorage.getItem('token_type')} ${localStorage.getItem('access_token')}`
+  if (localStorage.getItem('accessToken')) {
+    return localStorage.getItem('accessToken')
   }
   return false
 }

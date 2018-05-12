@@ -4,14 +4,14 @@ import auth from '@/api/auth'
 const state = {
   isLogin: false,
   token: undefined,
-  errorMessage: ''
+  authErrorMessage: ''
 }
 
 // getters
 const getters = {
   isLogin: state => state.isLogin,
   token: state => state.token,
-  errorMessage: state => state.errorMessage
+  authErrorMessage: state => state.authErrorMessage
 
 }
 
@@ -36,12 +36,14 @@ const actions = {
         localStorage.setItem('accessToken', token)
         commit('setToken', token)
         commit('setLoginStatus', true)
-      }).catch(err => {
+        return res
+      })
+      .catch(err => {
         localStorage.setItem('accessToken', '')
-        console.error(err)
         commit('setToken', '')
         commit('setLoginStatus', false)
         commit('setErrorMessege', err.message)
+        throw (err)
       })
   }
 }
@@ -55,7 +57,7 @@ const mutations = {
     state.isLogin = isLogin
   },
   setErrorMessege (state, message) {
-    state.errorMessage = message
+    state.authErrorMessage = message
   }
 
 }
