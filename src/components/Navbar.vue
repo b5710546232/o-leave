@@ -25,15 +25,21 @@
           Connect &nbsp; <i class="fab fa-line fa-lg green"></i>
         </span>
         </router-link>
+        
+          <router-link v-if="userInfo.role==='Administrator'" class="navbar-item" to="/adduser" >
+          Add user
+        </router-link>
 
         </div>
 
         <div class="navbar-end">
           <div class="navbar-item has-dropdown is-hoverable">
-            <span class="navbar-item pointer btn">
-                <img class="avatar" :src="avatarUrl" alt="" width="20" height="20" >
-          Jub warata
-        </span>
+            <router-link class="navbar-item avatar-container pointer btn" to="/profile">
+                <img class="avatar" :src="userInfo.image_path"  width="20" height="20"
+                @error="handleImgError"
+                >
+          {{userInfo.fname}} {{userInfo.lname}}
+        </router-link>
             <div class="navbar-dropdown is-right">
               <router-link class="navbar-item" to="edituserprofile">
               Edit profile
@@ -51,22 +57,36 @@
 </template>
 
 <script>
+    import {
+        Loading
+    } from 'element-ui';
 import {mapGetters} from 'vuex'
   export default {
     name: "Navbar",
     data() {
       return {
-        avatarUrl:'',
         isActive:false,
+        avatarUrl:''
       };
     },
     mounted(){
-      this.avatarUrl = this.userInfo.image_path
+      if(!this.userInfo.isLoaded){
+        this.fetchGetMe()
+      }
     },
     computed: {
       ...mapGetters(['userInfo'])
     },
     methods:{
+         fetchGetMe(){
+                let loadingInstance = Loading.service({
+                fullscreen: true
+            })
+            return this.$store.dispatch('getMe', this.token)
+            .then(() => {
+                loadingInstance.close()
+            })
+            },
       toggleNavbar(){
         this.isActive = !this.isActive
       },
@@ -76,6 +96,10 @@ import {mapGetters} from 'vuex'
       },
       openLineMessageBox(){
         
+      },
+      handleImgError(){
+        const DEFAULT_IMG ='../../static/images/blank_profile.png'
+        this.$store.dispatch('setUserInfoImagePath',DEFAULT_IMG)
       },
       routeByRole(){
         let role = this.userInfo.role
@@ -90,7 +114,7 @@ import {mapGetters} from 'vuex'
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
   .navbar {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .2);
   }
   .btn:hover, active{
     background:rgba(0, 0, 0, .03);
@@ -100,6 +124,7 @@ import {mapGetters} from 'vuex'
 }
 .avatar{
   margin-right:8px;
+  object-fit: cover;
 }
   .pointer{
     cursor: pointer;

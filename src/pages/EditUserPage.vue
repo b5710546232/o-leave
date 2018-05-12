@@ -6,9 +6,9 @@
                 <div>
                     <div class="colmuns is-12">
                         <div class="avatar-container">
-                            <el-upload class="avatar-uploader" :action="''" :headers="headers" :on-change="handlePictureCardPreview" :show-file-list="false" :auto-upload="false">
+                            <el-upload class="avatar-uploader" :action="''" :on-change="handlePictureCardPreview" :show-file-list="false" :auto-upload="false">
                                 <i :class="{'el-icon-plus avatar-uploader-icon':imageUrl,'el-icon-plus avatar-uploader-icon p-relative':!imageUrl}"></i>
-                                <img class="avatar" width="178" height="178" v-if="imageUrl" :src="imageUrl">
+                                <img @error="handleImgError" class="avatar" width="178" height="178" v-if="imageUrl" :src="imageUrl">
                             </el-upload>
                         </div>
                         <div v-if="!imageFile">Select your new profile</div>
@@ -17,7 +17,7 @@
     
     
                     <div class="edit-form">
-                        <el-form :model="editForm" status-icon :rules="rules" ref="editForm" label-width="100px" :label-position="'left'">
+                        <el-form :model="editForm" status-icon :rules="rules" ref="editForm" label-width="140px" :label-position="'left'">
                             <el-row :gutter="30">
                                 <el-col :sm="12" :md="12">
                                     <el-form-item label="First name" prop="firstname">
@@ -32,6 +32,20 @@
                                         </el-input>
                                     </el-form-item>
                                 </el-col>
+
+                                     <!-- <el-col :sm="12" :md="12">
+                  <el-form-item label="Password" prop="password">
+                    <el-input ref="password" type="password" v-model="editForm.password" auto-complete="off" @keyup.enter.native="checkEnter">
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+  
+                <el-col :sm="12" :md="12">
+                  <el-form-item label="Confirm password" prop="confirmPassword">
+                    <el-input ref="confirmPassword" type="password" v-model="editForm.confirmPassword" auto-complete="off" @keyup.enter.native="checkEnter">
+                    </el-input>
+                  </el-form-item>
+                </el-col> -->
     
                                 <el-col :sm="12" :md="12">
                                     <el-form-item label="Address" prop="address">
@@ -117,27 +131,38 @@
     export default {
         name: 'EditUserPage',
         mounted() {
-            let loadingInstance = Loading.service({
-                fullscreen: true
-            })
-    
-            this.headers = {
-                headers: {
-                    'Authorization': this.token
-                }
-            }
-            this.$store.dispatch('getMe', this.token).then(() => {
-                this.imageUrl = this.userInfo.image_path
+            if(this.userInfo.isLoaded){
                 this.mapDataToForm()
-            }).then(() => {
-                loadingInstance.close()
-            })
+                return
+            }
+            else{
+                this.fetchGetMe()
+            }
             this.actionURL = `${baseURL}/me/upload_image`
         },
         computed: {
             ...mapGetters(['token', 'userInfo'])
         },
         data() {
+            const checkPass = (rule, value, callback) => {
+        if (value === "") {
+          callback(new Error("Please input the password"))
+        } else {
+          if (this.editForm.confirmPassword !== "") {
+            this.$refs.editForm.validateField("confirmPassword")
+          }
+          callback()
+        }
+      }
+      const checkConfirmPass = (rule, value, callback) => {
+        if (value === "") {
+          callback(new Error("Please input the password again"))
+        } else if (value !== this.editForm.password) {
+          callback(new Error("Two inputs don't match!"))
+        } else {
+          callback()
+        }
+      }
             return {
                 msg: 'Welcome to Your Vue.js Login',
                 editForm: {
@@ -152,9 +177,18 @@
                 },
                 imageUrl: '',
                 actionURL: '',
-                headers: {},
                 imageFile: '',
                 rules: {
+        //                password: [{
+        //     validator: checkPass,
+        //     trigger: "blur",
+        //     required: true
+        //   }],
+        //   confirmPassword: [{
+        //     validator: checkConfirmPass,
+        //     trigger: "blur",
+        //     required: true
+        //   }],
                     firstname: [{
                         required: true,
                         message: 'Please input firstname',
@@ -188,7 +222,7 @@
                     line: [{
                         required: true,
                         message: 'Please input line',
-                        trigger: 'blur,change'
+                        trigger: 'blur'
                     }],
                     department: [{
                         required: true,
@@ -203,17 +237,28 @@
                 console.log('handleSucess', res, file)
                 this.imageUrl = URL.createObjectURL(file.raw);
             },
+            fetchGetMe(){
+                let loadingInstance = Loading.service({
+                fullscreen: true
+            })
+            return this.$store.dispatch('getMe', this.token).then(() => {
+                this.mapDataToForm()
+            }).then(() => {
+                loadingInstance.close()
+            })
+            },
             submitUpload() {
                 let loadingInstance = Loading.service({
                     fullscreen: true
                 })
-                console.log(this.imageFile)
                 this.$store.dispatch('uploadProfile', this.imageFile.raw).then(() => {
+                    return this.fetchGetMe()
+                }).then(()=>{
                     loadingInstance.close()
                 }).catch((err) => {
                     loadingInstance.close()
                     console.error(err)
-                    this.$message.error('Upload picture has an error.');
+                    this.$message.error('Upload picture has an error.')
                 })
             },
              mapDataToForm(){
@@ -225,6 +270,8 @@
                 this.editForm.line = this.userInfo.line
                 this.editForm.ig = this.userInfo.ig
                 this.editForm.telno = this.userInfo.telno
+
+                this.imageUrl = this.userInfo.image_path
             },
             checkEnter() {
                 this.onSubmitEdit()
@@ -248,12 +295,16 @@
                     department: this.editForm.department
                 }
 
-                this.$store.dispatch('updateUser', payload).then(() => {
+                this.$store.dispatch('updateUser', payload)
+                .then(()=>{
+                    return this.fetchGetMe()
+                })
+                .then(() => {
                     loadingInstance.close()
                 }).catch((err) => {
                     loadingInstance.close()
                     console.error(err)
-                    this.$message.error('Upload picture has an error.');
+                    this.$message.error(`${err.message}`)
                 })
                     }
                 })
@@ -266,6 +317,11 @@
                 }
                 return isLt2M;
             },
+             handleImgError(){
+        const DEFAULT_IMG ='../../static/images/blank_profile.png'
+        // this.$store.dispatch('setUserInfoImagePath',DEFAULT_IMG)
+        this.imageUrl = DEFAULT_IMG
+      },
             handlePictureCardPreview(file) {
                 if (this.beforeAvatarUpload(file)) {
                     this.imageUrl = file.url;
@@ -318,6 +374,7 @@
         z-index: 1;
         position: relative;
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .2);
+        object-fit: cover;
     }
     
     .edit-form {

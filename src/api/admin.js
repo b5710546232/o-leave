@@ -1,15 +1,14 @@
-import axios,{DefaultHeaders}  from './axios'
+import axios from './base'
 
-const registerUser = (payload,headers=DefaultHeaders) => {
-    return axios.post('/register',payload,{
-        "headers":headers
-    }).then((res) => {
-        return res.data
-    }).catch(error => {
-        return error
-    })
+const registerUser = (payload) => {
+  return axios.post('/register', payload).then((res) => {
+    return res.data
+  }).catch(error => {
+    console.log('error', error)
+    throw (error)
+  })
 }
 
 export default {
-    registerUser
+  registerUser
 }

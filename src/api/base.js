@@ -1,10 +1,20 @@
+
 import axios from 'axios'
-export const baseURL = `https://limitless-falls-39048.herokuapp.com/api`
-export const URL = `https://limitless-falls-39048.herokuapp.com/`
+// import {getAccessToken} from './user'
+export const URL = `http://vleave-back.ivaa.space`
+export const baseURL = `${URL}/api`
+// `http://vleave-back.ivaa.space`
+// `https://limitless-falls-39048.herokuapp.com/`
 // const baseURL = 'http://localhost/tender_bartik/public/api '
 export const DefaultHeaders = {
   'Content-Type': 'application/json'
 }
+
+export const AuthHeaders = {
+  'Content-Type': 'application/json'
+  // 'Authorization': getAccessToken()
+}
+
 let instance = axios.create({
   baseURL: baseURL
 })
