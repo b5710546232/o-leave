@@ -57,8 +57,8 @@
               <div v-else>
   
                 <p class="title">My Leave</p>
-                <data-tables :data="data" :actions-def="leaveActiondef" :pagination-def="paginationDef" :checkbox-filter-def="checkFilterDef" :action-col-def="actionColDef">
-                  <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" sortable="custom">
+                <data-tables :data="myLeave" :actions-def="leaveActiondef" :pagination-def="paginationDef" :checkbox-filter-def="taskCheckFilterDef">
+                  <el-table-column v-for="title in leaveTitles" :prop="title.prop" :label="title.label" sortable="custom">
                   </el-table-column>
                 </data-tables>
 
@@ -184,6 +184,19 @@
           }],
         },
         data,
+        leaveTitles:[{
+        prop: "start",
+        label: "Start Date"
+        }, {
+        prop: "end",
+        label: "End date"
+        }, {
+        prop: "name",
+        label: "Name",
+        }, {
+        prop: "status",
+        label: "Status"
+        }],
         taskTitles: [{
         prop: "start",
         label: "Start Date"

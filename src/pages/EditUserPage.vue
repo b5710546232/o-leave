@@ -226,7 +226,7 @@
                     department: [{
                         required: true,
                         message: 'Please select department',
-                        trigger: 'change'
+                        trigger: 'blur'
                     }]
                 }
             }
