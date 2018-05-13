@@ -3,12 +3,7 @@ import task from '@/api/task'
 // initial state
 const state = {
   myTaskList: [],
-  taskList: [{
-    'start': '',
-    'end': '',
-    'name': '',
-    'status': ''
-  }]
+  taskList: []
 }
 
 // getters

@@ -4,7 +4,7 @@ const getAllTask = () => {
   return axios.get('/tasks').then((res) => {
     return res.data
   }).catch(error => {
-    return error
+    throw (error)
   })
 }
 
@@ -12,7 +12,7 @@ const getMyTask = () => {
   return axios.get('/me/tasks').then((res) => {
     return res.data
   }).catch(error => {
-    return error
+    throw (error)
   })
 }
 
@@ -20,7 +20,7 @@ const postTask = (payload) => {
   return axios.post('/tasks', payload).then((res) => {
     return res.data
   }).catch(error => {
-    return error
+    throw (error)
   })
 }
 
