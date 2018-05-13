@@ -73,7 +73,7 @@
   
             <article class="tile is-child box-card">
               <p class="title">My tasks</p>
-              <data-tables :data="taskList" :actions-def="actionsDef" :pagination-def="paginationDef" :checkbox-filter-def="taskCheckFilterDef">
+              <data-tables :data="myTaskList" :actions-def="actionsDef" :pagination-def="paginationDef" :checkbox-filter-def="taskCheckFilterDef">
                 <el-table-column v-for="title in taskTitles" :prop="title.prop" :label="title.label" sortable="custom">
                 </el-table-column>
               </data-tables>
@@ -203,17 +203,7 @@
           colProps: {
             span: 5
           },
-          def: [{
-            name: 'New',
-            handler: () => {
-              this.data.push({
-                'content': 'hello world',
-                'flow_no': 'FW201601010004',
-                'flow_type': 'Help',
-                'flow_type_code': 'help',
-              })
-            }
-          }]
+          def: []
         },
            taskCheckFilterDef: {
           props: 'status',
@@ -259,7 +249,7 @@
       }
     },
     computed: {
-      ...mapGetters(['taskList', 'inProgessTaskList', 'userInfo', 'leaveMessage','myLeave'])
+      ...mapGetters(['myTaskList', 'inProgessTaskList', 'userInfo', 'leaveMessage','myLeave'])
     },
     mounted() {
       let loadingInstance = Loading.service({

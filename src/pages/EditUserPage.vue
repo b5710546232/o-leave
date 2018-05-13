@@ -32,20 +32,20 @@
                                         </el-input>
                                     </el-form-item>
                                 </el-col>
-
-                                     <!-- <el-col :sm="12" :md="12">
-                  <el-form-item label="Password" prop="password">
-                    <el-input ref="password" type="password" v-model="editForm.password" auto-complete="off" @keyup.enter.native="checkEnter">
-                    </el-input>
-                  </el-form-item>
-                </el-col>
-  
-                <el-col :sm="12" :md="12">
-                  <el-form-item label="Confirm password" prop="confirmPassword">
-                    <el-input ref="confirmPassword" type="password" v-model="editForm.confirmPassword" auto-complete="off" @keyup.enter.native="checkEnter">
-                    </el-input>
-                  </el-form-item>
-                </el-col> -->
+    
+                                <!-- <el-col :sm="12" :md="12">
+                      <el-form-item label="Password" prop="password">
+                        <el-input ref="password" type="password" v-model="editForm.password" auto-complete="off" @keyup.enter.native="checkEnter">
+                        </el-input>
+                      </el-form-item>
+                    </el-col>
+      
+                    <el-col :sm="12" :md="12">
+                      <el-form-item label="Confirm password" prop="confirmPassword">
+                        <el-input ref="confirmPassword" type="password" v-model="editForm.confirmPassword" auto-complete="off" @keyup.enter.native="checkEnter">
+                        </el-input>
+                      </el-form-item>
+                    </el-col> -->
     
                                 <el-col :sm="12" :md="12">
                                     <el-form-item label="Address" prop="address">
@@ -85,32 +85,32 @@
     
                                 <el-col :sm="12" :md="12">
                                     <el-form-item label="Department" prop="department">
-                                                    <el-input ref="department" type="text" v-model="editForm.department" auto-complete="off" @keyup.enter.native="checkEnter">
-                                                    </el-input>
-                                                </el-form-item>
+                                        <el-input ref="department" type="text" v-model="editForm.department" auto-complete="off" @keyup.enter.native="checkEnter">
+                                        </el-input>
+                                    </el-form-item>
                                     <!-- <el-form-item label="Department" prop="department">
-                                        <el-select ref="department" v-model="editForm.department" placeholder="Select...">
-                                            <el-option v-for="item in [
-                                                {
-                  value: 'Administrator',
-                  label: 'Administrator'
-                },
-                {
-                  value: 'Supervisor',
-                  label: 'Supervisor'
-                },
-                {
-                  value: 'Subordinate',
-                  label: 'Subordinate'
-                }]" :key="item.value" :label="item.label" :value="item.value">
-                                            </el-option>
-                                        </el-select> -->
+                                            <el-select ref="department" v-model="editForm.department" placeholder="Select...">
+                                                <el-option v-for="item in [
+                                                    {
+                      value: 'Administrator',
+                      label: 'Administrator'
+                    },
+                    {
+                      value: 'Supervisor',
+                      label: 'Supervisor'
+                    },
+                    {
+                      value: 'Subordinate',
+                      label: 'Subordinate'
+                    }]" :key="item.value" :label="item.label" :value="item.value">
+                                                </el-option>
+                                            </el-select> -->
     
                                     <!-- </el-form-item> -->
                                 </el-col>
                             </el-row>
                         </el-form>
-                        <el-button  class="submit-btn" type="primary btn" @click="onSubmitEdit('editForm')">Confirm</el-button>
+                        <el-button class="submit-btn" type="primary btn" @click="onSubmitEdit('editForm')">Confirm</el-button>
                     </div>
                 </div>
             </el-card>
@@ -131,11 +131,10 @@
     export default {
         name: 'EditUserPage',
         mounted() {
-            if(this.userInfo.isLoaded){
+            if (this.userInfo.isLoaded) {
                 this.mapDataToForm()
                 return
-            }
-            else{
+            } else {
                 this.fetchGetMe()
             }
             this.actionURL = `${baseURL}/me/upload_image`
@@ -145,24 +144,24 @@
         },
         data() {
             const checkPass = (rule, value, callback) => {
-        if (value === "") {
-          callback(new Error("Please input the password"))
-        } else {
-          if (this.editForm.confirmPassword !== "") {
-            this.$refs.editForm.validateField("confirmPassword")
-          }
-          callback()
-        }
-      }
-      const checkConfirmPass = (rule, value, callback) => {
-        if (value === "") {
-          callback(new Error("Please input the password again"))
-        } else if (value !== this.editForm.password) {
-          callback(new Error("Two inputs don't match!"))
-        } else {
-          callback()
-        }
-      }
+                if (value === "") {
+                    callback(new Error("Please input the password"))
+                } else {
+                    if (this.editForm.confirmPassword !== "") {
+                        this.$refs.editForm.validateField("confirmPassword")
+                    }
+                    callback()
+                }
+            }
+            const checkConfirmPass = (rule, value, callback) => {
+                if (value === "") {
+                    callback(new Error("Please input the password again"))
+                } else if (value !== this.editForm.password) {
+                    callback(new Error("Two inputs don't match!"))
+                } else {
+                    callback()
+                }
+            }
             return {
                 msg: 'Welcome to Your Vue.js Login',
                 editForm: {
@@ -179,16 +178,16 @@
                 actionURL: '',
                 imageFile: '',
                 rules: {
-        //                password: [{
-        //     validator: checkPass,
-        //     trigger: "blur",
-        //     required: true
-        //   }],
-        //   confirmPassword: [{
-        //     validator: checkConfirmPass,
-        //     trigger: "blur",
-        //     required: true
-        //   }],
+                    //                password: [{
+                    //     validator: checkPass,
+                    //     trigger: "blur",
+                    //     required: true
+                    //   }],
+                    //   confirmPassword: [{
+                    //     validator: checkConfirmPass,
+                    //     trigger: "blur",
+                    //     required: true
+                    //   }],
                     firstname: [{
                         required: true,
                         message: 'Please input firstname',
@@ -237,15 +236,15 @@
                 console.log('handleSucess', res, file)
                 this.imageUrl = URL.createObjectURL(file.raw);
             },
-            fetchGetMe(){
+            fetchGetMe() {
                 let loadingInstance = Loading.service({
-                fullscreen: true
-            })
-            return this.$store.dispatch('getMe', this.token).then(() => {
-                this.mapDataToForm()
-            }).then(() => {
-                loadingInstance.close()
-            })
+                    fullscreen: true
+                })
+                return this.$store.dispatch('getMe', this.token).then(() => {
+                    this.mapDataToForm()
+                }).then(() => {
+                    loadingInstance.close()
+                })
             },
             submitUpload() {
                 let loadingInstance = Loading.service({
@@ -253,7 +252,7 @@
                 })
                 this.$store.dispatch('uploadProfile', this.imageFile.raw).then(() => {
                     return this.fetchGetMe()
-                }).then(()=>{
+                }).then(() => {
                     loadingInstance.close()
                 }).catch((err) => {
                     loadingInstance.close()
@@ -261,7 +260,7 @@
                     this.$message.error('Upload picture has an error.')
                 })
             },
-             mapDataToForm(){
+            mapDataToForm() {
                 this.editForm.firstname = this.userInfo.fname
                 this.editForm.lastname = this.userInfo.lname
                 this.editForm.department = this.userInfo.department
@@ -270,42 +269,42 @@
                 this.editForm.line = this.userInfo.line
                 this.editForm.ig = this.userInfo.ig
                 this.editForm.telno = this.userInfo.telno
-
+    
                 this.imageUrl = this.userInfo.image_path
             },
             checkEnter() {
                 this.onSubmitEdit()
             },
             onSubmitEdit() {
-              this.$refs['editForm'].validate(valid => {
-                    if(valid){
+                this.$refs['editForm'].validate(valid => {
+                    if (valid) {
                         // do some task.
-                    let loadingInstance = Loading.service({
-                fullscreen: true
-            })
-                // updateUser
-                const payload = {
-                    fname: this.editForm.firstname,
-                    lname: this.editForm.lastname,
-                    address: this.editForm.address,
-                    telno: this.editForm.telno,
-                    fb: this.editForm.fb,
-                    ig: this.editForm.ig,
-                    line: this.editForm.line,
-                    department: this.editForm.department
-                }
-
-                this.$store.dispatch('updateUser', payload)
-                .then(()=>{
-                    return this.fetchGetMe()
-                })
-                .then(() => {
-                    loadingInstance.close()
-                }).catch((err) => {
-                    loadingInstance.close()
-                    console.error(err)
-                    this.$message.error(`${err.message}`)
-                })
+                        let loadingInstance = Loading.service({
+                            fullscreen: true
+                        })
+                        // updateUser
+                        const payload = {
+                            fname: this.editForm.firstname,
+                            lname: this.editForm.lastname,
+                            address: this.editForm.address,
+                            telno: this.editForm.telno,
+                            fb: this.editForm.fb,
+                            ig: this.editForm.ig,
+                            line: this.editForm.line,
+                            department: this.editForm.department
+                        }
+    
+                        this.$store.dispatch('updateUser', payload)
+                            .then(() => {
+                                return this.fetchGetMe()
+                            })
+                            .then(() => {
+                                loadingInstance.close()
+                            }).catch((err) => {
+                                loadingInstance.close()
+                                console.error(err)
+                                this.$message.error(`${err.message}`)
+                            })
                     }
                 })
             },
@@ -317,11 +316,11 @@
                 }
                 return isLt2M;
             },
-             handleImgError(){
-        const DEFAULT_IMG ='../../static/images/blank_profile.png'
-        // this.$store.dispatch('setUserInfoImagePath',DEFAULT_IMG)
-        this.imageUrl = DEFAULT_IMG
-      },
+            handleImgError() {
+                const DEFAULT_IMG = '../../static/images/blank_profile.png'
+                // this.$store.dispatch('setUserInfoImagePath',DEFAULT_IMG)
+                this.imageUrl = DEFAULT_IMG
+            },
             handlePictureCardPreview(file) {
                 if (this.beforeAvatarUpload(file)) {
                     this.imageUrl = file.url;
@@ -384,7 +383,8 @@
     .el-select {
         width: 100%;
     }
-    .header{
+    
+    .header {
         font-size: 1.5rem;
         margin-bottom: 16px;
     }

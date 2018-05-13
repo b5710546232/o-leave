@@ -19,7 +19,7 @@ export default new Router({
       component: LoginPage
     },
     {
-      path: '/admin',
+      path: '/administrator',
       name: 'AdminPage',
       component: AdminPage
     },
