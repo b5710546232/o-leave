@@ -1,7 +1,7 @@
 <template>
   <div class="root container">
     <div class="box-card">
-      <div class="task-list">
+      <div ref="table" class="task-list">
         <h1>All Tasks</h1>
         <data-tables :data="taskList" :actions-def="actionsDef" :pagination-def="paginationDef" :checkbox-filter-def="taskCheckFilterDef"
         >
@@ -10,12 +10,14 @@
         </data-tables>
       </div>
     </div>
-    <!-- <button @click="exportCSV">btn</button> {{taskList}} -->
   </div>
 </template>
 
 <script>
+  const csvReport = require('csv-report')
   const Json2csvParser = require('json2csv').Parser
+  import jsPDF from 'jspdf'
+  import 'jspdf-autotable'
   import {
     Loading
   } from 'element-ui';
@@ -34,6 +36,60 @@
         })
     },
     methods: {
+      exportPDF(){
+        let columns = [
+          {title:'Start date',dataKey:'start'},
+          {title:'End date',dataKey:'end'},
+          {title:'Name',dataKey:'name'},
+          {title:'Description',dataKey:'description'},
+          {title:'Status',dataKey:'status'}
+        ]
+        let doc = new jsPDF('l','pt')
+        let table = this.taskList
+
+
+  let header = function (data) {
+        doc.setFontSize(20);
+        doc.setTextColor(40);
+        doc.setFontStyle('normal');
+        doc.text("O-leave tasks report", data.settings.margin.left + 35, 60);
+    }
+       var totalPagesExp = "{total_pages_count_string}"
+        let footer = function (data) {
+        let str = "Page " + data.pageCount;
+        if (typeof doc.putTotalPages === 'function') {
+            str = str + " of " + totalPagesExp;
+        }doc.setFontSize(12);
+        doc.text(str, data.settings.margin.left, doc.internal.pageSize.height - 30);
+    }
+
+// overflowColumns: false 
+//  columnWidth:'wrap'
+        let tableOptions = {
+        beforePageContent: header,
+        styles: {overflow: 'linebreak' },
+     columnStyles: {
+    0: {columnWidth: 200},
+    1: {columnWidth: 200},
+    2: {columnWidth: 80},
+    3: {columnWidth: 100},
+    4: {columnWidth: 80},
+    // etc
+},
+        afterPageContent: footer,
+           bodyStyles: {valign: 'middle'},
+        margin: {top: 80}
+    }
+        doc.autoTable(columns,table,tableOptions)
+
+        if (typeof doc.putTotalPages === 'function') {
+        doc.putTotalPages(totalPagesExp);
+    }
+
+    
+        doc.save('report.pdf')
+
+      },
       exportCSV() {
         let fileName = 'csv'
         const fields = ['start', 'end', 'name', 'description', 'status']
@@ -60,9 +116,15 @@
             span: 5
           },
              def: [{
-            name: 'Export csv',
+            name: 'csv',
             handler: () => {
               this.exportCSV()
+              }
+            },
+            {
+              name:'pdf',
+              handler:()=>{
+                this.exportPDF()
               }
             }
           ]
