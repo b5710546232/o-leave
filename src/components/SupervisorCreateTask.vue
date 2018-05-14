@@ -5,8 +5,8 @@
       <el-form :model="taskForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
         <el-form-item label="Subordinate" prop="sub">
           <el-select v-model="taskForm.sub" placeholder="Activity zone">
-            <el-option label="Zone one" value="shanghai"></el-option>
-            <el-option label="Zone two" value="beijing"></el-option>
+            <el-option v-for="sub in subordinates" :label="`${sub.fname} ${sub.lname}`" :value="sub.id" :v-key="sub.id"></el-option>
+            <!-- <el-option label="Zone two" value="beijing"></el-option> -->
           </el-select>
         </el-form-item>
         <el-form-item label="Task name" prop="name">
@@ -33,6 +33,8 @@
   </div>
 </template>
 <script>
+  import { mapGetters } from 'vuex'
+  import moment from 'moment'
   export default {
     data() {
       return {
@@ -68,7 +70,15 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            let payload = {
+              name: this.taskForm.name,
+              assignee: this.taskForm.sub,
+              description: this.taskForm.desc,
+              start: moment(this.taskForm.date[0]).format("YYYY-MM-DD"),
+              end: moment(this.taskForm.date[1]).format("YYYY-MM-DD"),
+            }
+            console.log(payload, 'payload')
+            this.$store.dispatch('creatTask', payload)
           } else {
             console.log('error submit!!');
             return false;
@@ -78,6 +88,12 @@
       backToTask() {
         this.$store.dispatch('setIsCreateTask', false)
       }
+    },
+    mounted() {
+      this.$store.dispatch('getSubUsers')
+    },
+    computed: {
+      ...mapGetters(['subordinates'])
     }
   }
 </script>

@@ -18,6 +18,7 @@ const getMyTask = () => {
 
 const postTask = (payload) => {
   return axios.post('/tasks', payload).then((res) => {
+    console.log('fk task')
     return res.data
   }).catch(error => {
     return error

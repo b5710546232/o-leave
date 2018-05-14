@@ -6,9 +6,8 @@
           <!-- Supervisor Taks -->
           <transition mode="out-in">
             <supervisor-task v-if="!isCreateTask"/>
-            <supervisor-create-task v-else/>
-            <!-- <component :is="supTask"></component> -->
-          </transition>
+            <supervisor-create-task v-else/> -->
+          </transition> 
           <!-- Supervisor Taks -->
           <div class="tile is-parent">
             <article class="tile is-child box-card">
@@ -105,4 +104,5 @@ export default {
   .el-select {
         width: 100%;
   }
+  
 </style>
