@@ -17,6 +17,7 @@
     "bulma-start": "^0.0.2",
     "element-ui": "^2.3.7",
     "es6-promise": "^4.2.4",
+    "json2csv": "^4.1.2",
     "moment": "^2.22.1",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.0.1",

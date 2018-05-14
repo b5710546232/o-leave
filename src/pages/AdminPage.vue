@@ -3,16 +3,19 @@
     <div class="box-card">
       <div class="task-list">
         <h1>All Tasks</h1>
-        <data-tables :data="taskList" :actions-def="actionsDef" :pagination-def="paginationDef" :checkbox-filter-def="taskCheckFilterDef">
+        <data-tables :data="taskList" :actions-def="actionsDef" :pagination-def="paginationDef" :checkbox-filter-def="taskCheckFilterDef"
+        >
           <el-table-column v-for="title in taskTitles" :prop="title.prop" :label="title.label" sortable="custom">
           </el-table-column>
         </data-tables>
       </div>
     </div>
+    <!-- <button @click="exportCSV">btn</button> {{taskList}} -->
   </div>
 </template>
 
 <script>
+  const Json2csvParser = require('json2csv').Parser
   import {
     Loading
   } from 'element-ui';
@@ -30,6 +33,25 @@
   
         })
     },
+    methods: {
+      exportCSV() {
+        let fileName = 'csv'
+        const fields = ['start', 'end', 'name', 'description', 'status']
+        const json2csvParser = new Json2csvParser({
+          fields
+        })
+        const csv = json2csvParser.parse(this.taskList)
+        let result = csv
+        var csvContent = 'data:text/csvcharset=GBK,\uFEFF' + result
+        var encodedUri = encodeURI(csvContent)
+        var link = document.createElement('a')
+        link.setAttribute('href', encodedUri)
+        link.setAttribute('download', `${(fileName || 'file')}.csv`)
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+      }
+    },
     data() {
       return {
         msg: 'Welcome to Your Vue.js Login',
@@ -37,7 +59,13 @@
           colProps: {
             span: 5
           },
-          def: []
+             def: [{
+            name: 'Export csv',
+            handler: () => {
+              this.exportCSV()
+              }
+            }
+          ]
         },
         paginationDef: {
           pageSize: 5,

@@ -94,9 +94,6 @@
 </template>
 
 <script>
-  // Vacation leave
-  // - Personal Errand leave
-  // - Sick leave
   import moment from 'moment'
   import {
     mapGetters
