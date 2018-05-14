@@ -2,12 +2,14 @@ import leave from '@/api/leave'
 
 // initial state
 const state = {
-  leaveMessage: ''
+  leaveMessage: '',
+  myLeave: []
 }
 
 // getters
 const getters = {
-  leaveMessage: state => state.leaveMessage
+  leaveMessage: state => state.leaveMessage,
+  myLeave: state => state.myLeave
 }
 
 // actions
@@ -18,7 +20,14 @@ const actions = {
         commit('setLeaveMessage', res.message)
         return res
       })
-      .catch(err => err)
+      .catch(err => { throw (err) })
+  },
+  getMyLeaves ({commit, state}) {
+    return leave.getMyLeaves()
+      .then(res => {
+        commit('setgetMyLeaves', res)
+      })
+      .catch(err => { throw (err) })
   }
 }
 
@@ -27,6 +36,9 @@ const mutations = {
   setLeaveMessage (state, message) {
     state.leaveMessage = message
     console.log('leave', state.leaveMessage)
+  },
+  setgetMyLeaves (state, myLeave) {
+    state.myLeave = myLeave
   }
 }
 

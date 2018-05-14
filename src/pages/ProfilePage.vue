@@ -12,25 +12,48 @@
     
     
                     <div class="edit-form">
-                        <el-form :model="editForm" status-icon :rules="rules" ref="editForm" label-width="100px" :label-position="'left'">
+                        <el-form :model="editForm" status-icon ref="editForm" label-width="100px" :label-position="'left'">
+                            
                             <el-row :gutter="30">
+                                  <el-col :sm="12" :md="12">
+                                    <el-form-item label="Role" prop="role">
+                                        <el-input readonly class="is-disabled-click" ref="address" type="text" v-model="editForm.role" auto-complete="off">
+                                        </el-input>
+                                    </el-form-item>
+                                </el-col>
+
+                                  <el-col :sm="12" :md="12">
+                                    <el-form-item label="Email" prop="emial">
+                                        <el-input readonly class="is-disabled-click" ref="address" type="text" v-model="editForm.email" auto-complete="off">
+                                        </el-input>
+                                    </el-form-item>
+                                </el-col>
+
+                                  <el-col :sm="12" :md="12">
+                                    <el-form-item label="Department" prop="department">
+                                        <el-input readonly ref="department" type="text" v-model="editForm.department" auto-complete="off">
+                                        </el-input>
+                                    </el-form-item>
+                                </el-col>
+
+
                                 <el-col :sm="12" :md="12">
                                     <el-form-item label="Address" prop="address">
-                                        <el-input ref="address" type="text" v-model="editForm.address" auto-complete="off">
+                                        <el-input readonly class="is-disabled-click" ref="address" type="text" v-model="editForm.address" auto-complete="off">
                                         </el-input>
                                     </el-form-item>
                                 </el-col>
     
                                 <el-col :sm="12" :md="12">
                                     <el-form-item label="Tel. number" prop="telno">
-                                        <el-input ref="telno" type="text" v-model="editForm.telno" auto-complete="off">
+                                        <el-input readonly ref="telno" type="text" v-model="editForm.telno" auto-complete="off">
                                         </el-input>
                                     </el-form-item>
                                 </el-col>
     
                                 <el-col :sm="12" :md="12">
                                     <el-form-item label="Facebook" prop="fb">
-                                        <el-input ref="fb" type="text" v-model="editForm.fb" auto-complete="off">
+                                        <el-input readonly ref="fb" type="text" v-model="editForm.fb" auto-complete="off">
                                         </el-input>
                                     </el-form-item>
                                 </el-col>
@@ -38,43 +61,18 @@
     
                                 <el-col :sm="12" :md="12">
                                     <el-form-item label="Instagram" prop="ig">
-                                        <el-input ref="ig" type="text" v-model="editForm.ig" auto-complete="off">
+                                        <el-input readonly ref="ig" type="text" v-model="editForm.ig" auto-complete="off">
                                         </el-input>
                                     </el-form-item>
                                 </el-col>
     
                                 <el-col :sm="12" :md="12">
                                     <el-form-item label="Line" prop="line">
-                                        <el-input ref="line" type="text" v-model="editForm.line" auto-complete="off">
+                                        <el-input readonly ref="line" type="text" v-model="editForm.line" auto-complete="off">
                                         </el-input>
                                     </el-form-item>
                                 </el-col>
     
-                                <el-col :sm="12" :md="12">
-                                    <el-form-item label="Department" prop="department">
-                                        <el-input ref="department" type="text" v-model="editForm.department" auto-complete="off">
-                                        </el-input>
-                                    </el-form-item>
-                                    <!-- <el-form-item label="Department" prop="department">
-                                                        <el-select ref="department" v-model="editForm.department" placeholder="Select...">
-                                                            <el-option v-for="item in [
-                                                                {
-                                  value: 'Administrator',
-                                  label: 'Administrator'
-                                },
-                                {
-                                  value: 'Supervisor',
-                                  label: 'Supervisor'
-                                },
-                                {
-                                  value: 'Subordinate',
-                                  label: 'Subordinate'
-                                }]" :key="item.value" :label="item.label" :value="item.value">
-                                                            </el-option>
-                                                        </el-select> -->
-    
-                                    <!-- </el-form-item> -->
-                                </el-col>
                             </el-row>
                         </el-form>
                         <el-button class="submit-btn" type="success btn" @click="onEdit">Edit</el-button>
@@ -112,6 +110,8 @@
             return {
                 msg: 'Welcome to Your Vue.js Login',
                 editForm: {
+                    role:'',
+                    email:'',
                     firstname: '',
                     lastname: '',
                     address: '',
@@ -124,48 +124,6 @@
                 imageUrl: '',
                 actionURL: '',
                 imageFile: '',
-                rules: {
-                    firstname: [{
-                        required: true,
-                        message: 'Please input firstname',
-                        trigger: 'blur'
-                    }],
-                    lastname: [{
-                        required: true,
-                        message: 'Please input lastname',
-                        trigger: 'blur'
-                    }],
-                    address: [{
-                        required: true,
-                        message: 'Please input address',
-                        trigger: 'blur'
-                    }],
-                    telno: [{
-                        required: true,
-                        message: 'Please input telephone number',
-                        trigger: 'blur'
-                    }],
-                    fb: [{
-                        required: true,
-                        message: 'Please input facebook',
-                        trigger: 'blur'
-                    }],
-                    ig: [{
-                        required: true,
-                        message: 'Please input instagram',
-                        trigger: 'blur'
-                    }],
-                    line: [{
-                        required: true,
-                        message: 'Please input line',
-                        trigger: 'blur,change'
-                    }],
-                    department: [{
-                        required: true,
-                        message: 'Please select department',
-                        trigger: 'change'
-                    }]
-                }
             }
         },
         methods: {
@@ -191,7 +149,8 @@
                 this.editForm.line = this.userInfo.line
                 this.editForm.ig = this.userInfo.ig
                 this.editForm.telno = this.userInfo.telno
-    
+                this.editForm.email = this.userInfo.email
+                this.editForm.role = this.userInfo.role
                 this.imageUrl = this.userInfo.image_path
             },
             handleImgError() {
@@ -280,5 +239,8 @@
     
     .upload-btn {
         margin: 16px 0;
+    }
+     .is-disabled-click{
+        pointer-events:stroke!important;
     }
 </style>

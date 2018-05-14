@@ -2,10 +2,10 @@
   <div class="root container">
     <div class="box-card">
       <div ref="table" class="task-list">
-        <h1>All Tasks</h1>
-        <data-tables :data="taskList" :actions-def="actionsDef" :pagination-def="paginationDef" :checkbox-filter-def="taskCheckFilterDef"
+        <h1>All Users</h1>
+        <data-tables :data="userList" :actions-def="actionsDef" :pagination-def="paginationDef" :checkbox-filter-def="taskCheckFilterDef"
         >
-          <el-table-column v-for="title in taskTitles" :prop="title.prop" :label="title.label" sortable="custom">
+          <el-table-column v-for="title in userTitles" :prop="title.prop" :label="title.label" sortable="custom">
           </el-table-column>
         </data-tables>
       </div>
@@ -25,27 +25,26 @@
     mapGetters
   } from 'vuex'
   export default {
-    name: 'HelloWorld',
+    name: 'ManageUserPage',
     computed: {
-      ...mapGetters(['taskList'])
+      ...mapGetters(['userList'])
     },
     mounted() {
-      return this.$store.dispatch('getAllTaskList')
+      return this.$store.dispatch('getAllUser')
         .then(res => {
-  
+          
         })
     },
     methods: {
       exportPDF(){
         let columns = [
-          {title:'Start date',dataKey:'start'},
-          {title:'End date',dataKey:'end'},
-          {title:'Name',dataKey:'name'},
-          {title:'Description',dataKey:'description'},
-          {title:'Status',dataKey:'status'}
+          {title:'name',dataKey:'name'},
+          {title:'Email',dataKey:'email'},
+          {title:'Role',dataKey:'role'},
+          {title:'Department',dataKey:'department'}
         ]
         let doc = new jsPDF('l','pt')
-        let table = this.taskList
+        let table = this.userList
 
 
   let header = function (data) {
@@ -92,11 +91,11 @@
       },
       exportCSV() {
         let fileName = 'csv'
-        const fields = ['start', 'end', 'name', 'description', 'status']
+        const fields = ['name', 'email', 'role', 'department']
         const json2csvParser = new Json2csvParser({
           fields
         })
-        const csv = json2csvParser.parse(this.taskList)
+        const csv = json2csvParser.parse(this.userList)
         let result = csv
         var csvContent = 'data:text/csvcharset=GBK,\uFEFF' + result
         var encodedUri = encodeURI(csvContent)
@@ -136,32 +135,29 @@
         taskCheckFilterDef: {
           props: 'status',
           def: [{
-            'code': 'to-do',
-            'name': 'To do'
+            'code': 'Administrator',
+            'name': 'Administrator'
           }, {
-            'code': 'doing',
-            'name': 'Doing'
+            'code': 'Supervisor',
+            'name': 'Supervisor'
           }, {
-            'code': 'done',
-            'name': 'Done'
+            'code': 'Subordinate',
+            'name': 'Subordinate'
           }]
         },
-        taskTitles: [{
-            prop: 'start',
-            label: 'Start Date'
-          }, {
-            prop: 'end',
-            label: 'End date'
-          }, {
+        userTitles: [{
             prop: 'name',
-            label: 'Name',
+            label: 'Name'
+          }, {
+            prop: 'email',
+            label: 'Email'
+          }, {
+            prop: 'role',
+            label: 'Role',
           },
           {
-            prop: 'description',
-            label: 'description'
-          }, {
-            prop: 'status',
-            label: 'Status'
+            prop: 'department',
+            label: 'Department'
           }
         ],
       }

@@ -17,18 +17,30 @@ const state = {
     id: '',
     supervisor_id: null},
   OTP: '',
-  supervisorList: []
+  supervisorList: [],
+  userList: []
 }
 
 // getters
 const getters = {
   userInfo: state => state.userInfo,
   OTP: state => state.OTP,
-  supervisorList: state => state.supervisorList
+  supervisorList: state => state.supervisorList,
+  userList: state => state.userList
 }
 
 // actions
 const actions = {
+  getAllUser ({commit, state}) {
+    return user.getAllUser()
+      .then(res => {
+        res = res.map(res => {
+          res['name'] = `${res.fname} ${res.lname}`
+          return res
+        })
+        commit('setUserList', res)
+      })
+  },
   getMe ({ commit, state }, token = getAccessToken()) {
     return user.getMe(token).then(res => {
       console.log('actions', res)
@@ -78,6 +90,9 @@ const actions = {
 
 // mutations
 const mutations = {
+  setUserList (state, userList) {
+    state.userList = userList
+  },
   setUserState (state, userState) {
     state.userInfo = userState
   },

@@ -8,6 +8,7 @@ import EditUserPage from '@/pages/EditUserPage'
 import ConnectLinePage from '@/pages/ConnectLinePage'
 import ProfilePage from '@/pages/ProfilePage'
 import AddUserPage from '@/pages/AddUserPage'
+import ManageUserPage from '@/pages/ManageUserPage'
 
 Vue.use(Router)
 
@@ -19,7 +20,7 @@ export default new Router({
       component: LoginPage
     },
     {
-      path: '/admin',
+      path: '/administrator',
       name: 'AdminPage',
       component: AdminPage
     },
@@ -52,6 +53,11 @@ export default new Router({
       path: '/adduser',
       name: 'AddUserPage',
       component: AddUserPage
+    },
+    {
+      path: '/manangeuser',
+      name: 'ManageUserPage',
+      component: ManageUserPage
     }
 
   ]

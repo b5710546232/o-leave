@@ -14,7 +14,6 @@ const getters = {
 // actions
 const actions = {
   addUser ({commit, state}, payload) {
-    commit('setIsAdminMessageError', false)
     return admin.registerUser(payload)
       .then(res => {
         if (res.hasOwnProperty('error')) {
@@ -26,7 +25,6 @@ const actions = {
       })
       .catch(err => {
         console.log('error', err)
-        commit('setIsAdminMessageError', true)
         commit('setAdminMessage', JSON.stringify(err))
         throw (err)
       })
