@@ -57,7 +57,7 @@
               <div v-else>
   
                 <p class="title">My Leave</p>
-                <data-tables :data="myLeave" :actions-def="leaveActiondef" :pagination-def="paginationDef" :checkbox-filter-def="taskCheckFilterDef">
+                <data-tables :data="myLeave" :actions-def="leaveActiondef" :pagination-def="paginationDef" :checkbox-filter-def="leaveCheckFilterDef">
                   <el-table-column v-for="title in leaveTitles" :prop="title.prop" :label="title.label" sortable="custom">
                   </el-table-column>
                 </data-tables>
@@ -160,7 +160,7 @@
             span: 5
           },
           def: [{
-            name: 'New leave',
+            name: 'New',
             handler: () => {
               this.isNew = true
             }
@@ -217,6 +217,19 @@
             span: 5
           },
           def: []
+        },
+         leaveCheckFilterDef: {
+          props: 'status',
+          def: [{
+            'code': 'pending',
+            'name': 'Pending'
+          }, {
+            'code': 'approved',
+            'name': 'Apporved'
+          }, {
+            'code': 'denied',
+            'name': 'Denied'
+          }]
         },
            taskCheckFilterDef: {
           props: 'status',
