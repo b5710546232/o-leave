@@ -3,7 +3,7 @@
     <div class="box-card">
       <div ref="table" class="task-list">
         <h1>All Users</h1>
-        <data-tables :data="userList" :actions-def="actionsDef" :pagination-def="paginationDef" :checkbox-filter-def="taskCheckFilterDef"
+        <data-tables :data="userList" :actions-def="actionsDef" :pagination-def="paginationDef" :action-col-def="actionColDef" :checkbox-filter-def="taskCheckFilterDef"
         >
           <el-table-column v-for="title in userTitles" :prop="title.prop" :label="title.label" sortable="custom">
           </el-table-column>
@@ -109,6 +109,17 @@
     },
     data() {
       return {
+         actionColDef: {
+        label: 'Actions',
+        def: [{
+          handler: row => {
+            console.log(row)
+            this.$router.push({ name: 'AdminEditUserPage', params: { userId: row.id }, query: { userId: row.id }})
+
+          },
+          name: 'Edit'
+        }]
+      },
         msg: 'Welcome to Your Vue.js Login',
         actionsDef: {
           colProps: {

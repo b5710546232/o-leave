@@ -3,7 +3,21 @@ import admin from '@/api/admin'
 // initial state
 const state = {
   adminMessage: '',
-  isAdminMessageError: false
+  isAdminMessageError: false,
+  editUserTarget: { address: '',
+    department: '',
+    role: '',
+    email: '',
+    fb: '',
+    ig: '',
+    image_path: '',
+    fname: '',
+    lname: '',
+    telno: '',
+    line: '',
+    isLoaded: false,
+    id: '',
+    supervisor_id: null}
 }
 
 // getters

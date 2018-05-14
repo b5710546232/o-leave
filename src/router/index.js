@@ -9,6 +9,7 @@ import ConnectLinePage from '@/pages/ConnectLinePage'
 import ProfilePage from '@/pages/ProfilePage'
 import AddUserPage from '@/pages/AddUserPage'
 import ManageUserPage from '@/pages/ManageUserPage'
+import AdminEditUserPage from '@/pages/AdminEditUserPage'
 
 Vue.use(Router)
 
@@ -58,6 +59,11 @@ export default new Router({
       path: '/manangeuser',
       name: 'ManageUserPage',
       component: ManageUserPage
+    },
+    {
+      path: '/adminedituser',
+      name: 'AdminEditUserPage',
+      component: AdminEditUserPage
     }
 
   ]
