@@ -114,6 +114,27 @@
                     </div>
                 </div>
             </el-card>
+            <el-card class="box-card margin-t-16">
+                <h1>Change password</h1>
+                <el-form  class="margin-t-16" :model="changePasswordForm" status-icon :rules="changePasswordrules" ref="changePasswordForm" label-width="140px" :label-position="'left'">
+                                                <el-row :gutter="30">
+                                <el-col :sm="12" :md="12">
+                      <el-form-item label="Password" prop="password">
+                        <el-input ref="password" type="password" v-model="changePasswordForm.password" auto-complete="off" @keyup.enter.native="onEnterChangePassword">
+                        </el-input>
+                      </el-form-item>
+                    </el-col>
+      
+                    <el-col :sm="12" :md="12">
+                      <el-form-item label="Confirm password" prop="confirmPassword">
+                        <el-input ref="confirmPassword" type="password" v-model="changePasswordForm.confirmPassword" auto-complete="off" @keyup.enter.native="onEnterChangePassword">
+                        </el-input>
+                      </el-form-item>
+                    </el-col>
+                                </el-row>
+                </el-form>
+                <el-button class="submit-btn" type="primary btn" @click="onSumbmitChangePassword">Change password</el-button>
+                </el-card>
         </div>
     </div>
 </template>
@@ -164,6 +185,10 @@
             }
             return {
                 msg: 'Welcome to Your Vue.js Login',
+                changePasswordForm:{
+                    password:'',
+                    confirmPassword:''
+                },
                 editForm: {
                     firstname: '',
                     lastname: '',
@@ -177,6 +202,18 @@
                 imageUrl: '',
                 actionURL: '',
                 imageFile: '',
+                changePasswordrules:{
+                                         password: [{
+                        validator: checkPass,
+                        trigger: "blur",
+                        required: true
+                      }],
+                      confirmPassword: [{
+                        validator: checkConfirmPass,
+                        trigger: "blur",
+                        required: true
+                      }],
+                },
                 rules: {
                     //                password: [{
                     //     validator: checkPass,
@@ -232,6 +269,10 @@
             }
         },
         methods: {
+            onEnterChangePassword(){
+                this.onEnterChangePassword()
+            },
+            onSumbmitChangePassword(){},
             handleAvatarSuccess(res, file) {
                 console.log('handleSucess', res, file)
                 this.imageUrl = URL.createObjectURL(file.raw);
@@ -377,6 +418,9 @@
     }
     
     .edit-form {
+        margin-top: 16px;
+    }
+    .margin-t-16{
         margin-top: 16px;
     }
     

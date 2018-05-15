@@ -72,7 +72,8 @@ const actions = {
     }).catch(err => { throw (err) })
   },
   updateUser ({commit, state}, payload) {
-    return user.updateUser(payload)
+    const id = state.userInfo.id
+    return user.updateUser(id, payload)
   },
   getOTP ({commit, state}) {
     return user.getOTP().then(otp => {

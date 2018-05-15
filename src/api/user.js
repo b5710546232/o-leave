@@ -31,8 +31,8 @@ const getAllSupervisors = () => {
   })
 }
 
-const updateUser = (payload) => {
-  const url = `/users/1`
+const updateUser = (id, payload) => {
+  const url = `/me`
   return axios.put(url, payload).then((res) => {
     return res.data
   }).catch(error => {
