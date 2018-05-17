@@ -9,15 +9,7 @@
             <supervisor-create-task v-else/> -->
           </transition> 
           <!-- Supervisor Taks -->
-          <div class="tile is-parent">
-            <article class="tile is-child box-card">
-              <p class="title">Pending Leave</p>
-              <!-- <data-tables :data="data" :actions-def="actionsDef" :checkbox-filter-def="checkFilterDef" :action-col-def="actionColDef">
-                <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" sortable="custom" :key="title.id">
-                </el-table-column>
-              </data-tables> -->
-            </article>
-          </div>
+          <supervisor-pending-leave></supervisor-pending-leave>
         </div>
         <div class="tile is-parent">
           <article class="tile is-child box-card">
@@ -34,6 +26,7 @@
 import { mapGetters } from 'vuex'
 import SupervisorTask from '../components/SupervisorTask'
 import SupervisorCreateTask from '../components/SupervisorCreateTask'
+import SupervisorPendingLeave from '../components/SupervisorPendingLeave'
 var demoEvents = [
 	{
     title : 'Sunny Out of Office',
@@ -70,7 +63,8 @@ export default {
   components : {
     'full-calendar': require('vue-fullcalendar'),
     SupervisorTask,
-    SupervisorCreateTask
+    SupervisorCreateTask,
+    SupervisorPendingLeave
   }
 }
 </script>

@@ -78,7 +78,8 @@
               end: moment(this.taskForm.date[1]).format("YYYY-MM-DD"),
             }
             console.log(payload, 'payload')
-            this.$store.dispatch('creatTask', payload)
+            this.$store.dispatch('createTask', payload)
+            this.$store.dispatch('setIsCreateTask', false)
           } else {
             console.log('error submit!!');
             return false;

@@ -31,6 +31,14 @@ const getAllSupervisors = () => {
   })
 }
 
+const getAllSubordinate = () => {
+  return axios.get('/me/subordinates').then((res) => {
+    return res.data
+  }).catch(error => {
+    throw (error)
+  })
+}
+
 const updateUser = (payload) => {
   const url = `/users/1`
   return axios.put(url, payload).then((res) => {
@@ -97,6 +105,7 @@ export default {
   uploadProfile,
   updateUser,
   getAllUser,
+  getAllSubordinate,
   adminUpdateUserByID,
   getAllSupervisors,
   getOTP
