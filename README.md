@@ -7,6 +7,7 @@
 ``` bash
 # serve static file on dist
 node run server.js
+
 # install dependencies
 npm install
 
