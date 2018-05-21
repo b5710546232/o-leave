@@ -2,7 +2,7 @@
   <div class="tile is-parent">
     <article class="tile is-child box-card">
       <p class="title">Pending Leave</p>
-      <data-tables :data="pendingLeaves" :checkbox-filter-def="checkFilterDef" :pagination-def="paginationDef" :actions-def="actionsDef" :action-col-def="actionColDef">
+      <data-tables :data="pendingLeaves" :pagination-def="paginationDef" :action-col-def="actionColDef">
         <el-table-column v-for="title in taskTitles" :prop="title.prop" :label="title.label" sortable="custom" :key="title.id">
         </el-table-column>
       </data-tables>
@@ -37,26 +37,19 @@ export default {
         pageSizes: [5, 10, 20]
       },
       actionsDef: {
-        colProps: {
-          span: 5
-        },
-        def: [{
-          name: 'new',
-          handler: () => {
-            console.log('Create new tasks')
-            self.$store.dispatch('setIsCreateTask', true)
-          }
-        }]
       },
       checkFilterDef: {
         props: 'status',
         def: [{
-          'code': 'to-do',
-          'name': 'To do'
-        }, {
+          'code': 'created',
+          'name': 'Created'
+        },{
           'code': 'doing',
           'name': 'Doing'
-        }]
+        }, {
+          'code': 'done',
+          'name': 'Done'
+        }, ]
       },
       actionColDef: {
         label: 'Actions',

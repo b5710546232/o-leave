@@ -38,8 +38,13 @@ npm test
 - Subordinate
     - Request Leave form
     - View Task on their calendar
-- Supervisor (Nattapat, Kasidit)
-    - Approve Leave form
+    - Edit Task status (Doing / Done)
+    - Approve / Reject Substitute task
+- Supervisor
+    - Approve / Reject Leave form
+    - View Subordinate Tasks in table
+    - View Subordinate Task in calendar
+    - Create Subordinate tasks
 - User
     - Edit
     - Profile

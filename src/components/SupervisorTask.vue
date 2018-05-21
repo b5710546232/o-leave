@@ -53,11 +53,14 @@ export default {
       checkFilterDef: {
         props: 'status',
         def: [{
-          'code': 'to-do',
-          'name': 'To do'
-        }, {
+          'code': 'created',
+          'name': 'Created'
+        },{
           'code': 'doing',
           'name': 'Doing'
+        }, {
+          'code': 'done',
+          'name': 'Done'
         }]
       }
     }
