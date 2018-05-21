@@ -2,16 +2,12 @@
     <div class="root">
         <div class="form-container">
             <el-card class="box-card">
-                <h1 class="header">Edit your profile</h1>
+                <h1 class="header">Manange user</h1>
                 <div>
                     <div class="colmuns is-12">
                         <div class="avatar-container">
-                            <el-upload class="avatar-uploader" :action="''" :on-change="handlePictureCardPreview" :show-file-list="false" :auto-upload="false">
-                                <i :class="{'el-icon-plus avatar-uploader-icon':imageUrl,'el-icon-plus avatar-uploader-icon p-relative':!imageUrl}"></i>
-                                <img @error="handleImgError" class="avatar" width="178" height="178" v-if="imageUrl" :src="imageUrl">
-                            </el-upload>
+                            <img @error="handleImgError" class="avatar" width="178" height="178" v-if="imageUrl" :src="imageUrl">
                         </div>
-                        <div v-if="!imageFile">Select your new profile</div>
                         <el-button v-if="imageFile" class="upload-btn" size="small" type="primary" @click="submitUpload">Upload</el-button>
                     </div>
     
@@ -34,18 +30,18 @@
                                 </el-col>
     
                                 <!-- <el-col :sm="12" :md="12">
-                      <el-form-item label="Password" prop="password">
-                        <el-input ref="password" type="password" v-model="editForm.password" auto-complete="off" @keyup.enter.native="checkEnter">
-                        </el-input>
-                      </el-form-item>
-                    </el-col>
-      
-                    <el-col :sm="12" :md="12">
-                      <el-form-item label="Confirm password" prop="confirmPassword">
-                        <el-input ref="confirmPassword" type="password" v-model="editForm.confirmPassword" auto-complete="off" @keyup.enter.native="checkEnter">
-                        </el-input>
-                      </el-form-item>
-                    </el-col> -->
+                              <el-form-item label="Password" prop="password">
+                                <el-input ref="password" type="password" v-model="editForm.password" auto-complete="off" @keyup.enter.native="checkEnter">
+                                </el-input>
+                              </el-form-item>
+                            </el-col>
+              
+                            <el-col :sm="12" :md="12">
+                              <el-form-item label="Confirm password" prop="confirmPassword">
+                                <el-input ref="confirmPassword" type="password" v-model="editForm.confirmPassword" auto-complete="off" @keyup.enter.native="checkEnter">
+                                </el-input>
+                              </el-form-item>
+                            </el-col> -->
     
                                 <el-col :sm="12" :md="12">
                                     <el-form-item label="Address" prop="address">
@@ -89,57 +85,69 @@
                                         </el-input>
                                     </el-form-item>
                                     <!-- <el-form-item label="Department" prop="department">
-                                            <el-select ref="department" v-model="editForm.department" placeholder="Select...">
-                                                <el-option v-for="item in [
-                                                    {
-                      value: 'Administrator',
-                      label: 'Administrator'
-                    },
-                    {
-                      value: 'Supervisor',
-                      label: 'Supervisor'
-                    },
-                    {
-                      value: 'Subordinate',
-                      label: 'Subordinate'
-                    }]" :key="item.value" :label="item.label" :value="item.value">
-                                                </el-option>
-                                            </el-select> -->
+                                                    <el-select ref="department" v-model="editForm.department" placeholder="Select...">
+                                                        <el-option v-for="item in [
+                                                            {
+                              value: 'Administrator',
+                              label: 'Administrator'
+                            },
+                            {
+                              value: 'Supervisor',
+                              label: 'Supervisor'
+                            },
+                            {
+                              value: 'Subordinate',
+                              label: 'Subordinate'
+                            }]" :key="item.value" :label="item.label" :value="item.value">
+                                                        </el-option>
+                                                    </el-select> -->
     
                                     <!-- </el-form-item> -->
                                 </el-col>
+    
+    
+                                <el-col :sm="12" :md="12">
+                                    <el-form-item label="Role" prop="role">
+                                        <el-select ref="role" v-model="editForm.role" placeholder="Select...">
+                                            <el-option v-for="item in [
+                                                            {
+                              value: 'Administrator',
+                              label: 'Administrator'
+                            },
+                            {
+                              value: 'Supervisor',
+                              label: 'Supervisor'
+                            },
+                            {
+                              value: 'Subordinate',
+                              label: 'Subordinate'
+                            }]" :key="item.value" :label="item.label" :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                </el-col>
+    
+                                <el-col v-if="editForm.role==='Subordinate'" :sm="12" :md="12">
+                                    <el-form-item label="Supervisor" prop="supervisor_id">
+                                        <el-select ref="task" v-model="editForm.supervisor_id" placeholder="Select...">
+                                            <el-option v-for="item in supervisorList" :key="item.id" :label="`${item.fname} ${item.lname}`" :value="String(item.id)">
+                                            </el-option>
+                                        </el-select>
+                                    </el-form-item>
+                                </el-col>
+    
                             </el-row>
                         </el-form>
                         <el-button class="submit-btn" type="primary btn" @click="onSubmitEdit('editForm')">Confirm</el-button>
                     </div>
                 </div>
             </el-card>
-            <el-card class="box-card margin-t-16">
-                <h1>Change password</h1>
-                <el-form  class="margin-t-16" :model="changePasswordForm" status-icon :rules="changePasswordrules" ref="changePasswordForm" label-width="140px" :label-position="'left'">
-                                                <el-row :gutter="30">
-                                <el-col :sm="12" :md="12">
-                      <el-form-item label="Password" prop="password">
-                        <el-input ref="password" type="password" v-model="changePasswordForm.password" auto-complete="off" @keyup.enter.native="onEnterChangePassword">
-                        </el-input>
-                      </el-form-item>
-                    </el-col>
-      
-                    <el-col :sm="12" :md="12">
-                      <el-form-item label="Confirm password" prop="confirmPassword">
-                        <el-input ref="confirmPassword" type="password" v-model="changePasswordForm.confirmPassword" auto-complete="off" @keyup.enter.native="onEnterChangePassword">
-                        </el-input>
-                      </el-form-item>
-                    </el-col>
-                                </el-row>
-                </el-form>
-                <el-button class="submit-btn" type="primary btn" @click="onSumbmitChangePassword">Change password</el-button>
-                </el-card>
         </div>
     </div>
 </template>
 
 <script>
+    import _ from 'lodash'
     import {
         Loading
     } from 'element-ui';
@@ -152,16 +160,10 @@
     export default {
         name: 'EditUserPage',
         mounted() {
-            if (this.userInfo.isLoaded) {
-                this.mapDataToForm()
-                return
-            } else {
-                this.fetchGetMe()
-            }
-            this.actionURL = `${baseURL}/me/upload_image`
+            this.prepareData()
         },
         computed: {
-            ...mapGetters(['token', 'userInfo'])
+            ...mapGetters(['token', 'userInfo', 'userList', 'editUserTarget', 'supervisorList'])
         },
         data() {
             const checkPass = (rule, value, callback) => {
@@ -185,10 +187,6 @@
             }
             return {
                 msg: 'Welcome to Your Vue.js Login',
-                changePasswordForm:{
-                    password:'',
-                    confirmPassword:''
-                },
                 editForm: {
                     firstname: '',
                     lastname: '',
@@ -197,23 +195,12 @@
                     fb: '',
                     ig: '',
                     line: '',
-                    department: ''
+                    department: '',
+                    role: '',
+                    supervisor_id: ''
                 },
                 imageUrl: '',
-                actionURL: '',
                 imageFile: '',
-                changePasswordrules:{
-                                         password: [{
-                        validator: checkPass,
-                        trigger: "blur",
-                        required: true
-                      }],
-                      confirmPassword: [{
-                        validator: checkConfirmPass,
-                        trigger: "blur",
-                        required: true
-                      }],
-                },
                 rules: {
                     //                password: [{
                     //     validator: checkPass,
@@ -225,6 +212,11 @@
                     //     trigger: "blur",
                     //     required: true
                     //   }],
+                    role: [{
+                        required: true,
+                        message: 'Please input role',
+                        trigger: 'blur'
+                    }],
                     firstname: [{
                         required: true,
                         message: 'Please input firstname',
@@ -268,50 +260,54 @@
                 }
             }
         },
+        watch: {
+            // call again the method if the route changes
+            '$route': 'prepareData'
+        },
         methods: {
-            onEnterChangePassword(){
-                this.onEnterChangePassword()
+            prepareData() {
+                console.log('prepare')
+                let loadingInstance = Loading.service({
+                    fullscreen: true
+                })
+                return this.$store.dispatch('getAllUser')
+                    .then(res => {
+                        const userId = this.$route.query.userId
+                        let targetUser = _.find(this.userList, e => e.id == userId)
+                        this.$store.dispatch('setEditUserTarget', targetUser)
+                        // this.$store.dispatch
+                    })
+                    .then(() => {
+                        return this.$store.dispatch('getAllSupervisors')
+                    })
+                    .then(() => {
+                        this.mapDataToForm()
+                    })
+                    .then(() => {
+                        loadingInstance.close()
+                    })
             },
-            onSumbmitChangePassword(){},
             handleAvatarSuccess(res, file) {
                 console.log('handleSucess', res, file)
                 this.imageUrl = URL.createObjectURL(file.raw);
             },
-            fetchGetMe() {
-                let loadingInstance = Loading.service({
-                    fullscreen: true
-                })
-                return this.$store.dispatch('getMe', this.token).then(() => {
-                    this.mapDataToForm()
-                }).then(() => {
-                    loadingInstance.close()
-                })
-            },
             submitUpload() {
-                let loadingInstance = Loading.service({
-                    fullscreen: true
-                })
-                this.$store.dispatch('uploadProfile', this.imageFile.raw).then(() => {
-                    return this.fetchGetMe()
-                }).then(() => {
-                    loadingInstance.close()
-                }).catch((err) => {
-                    loadingInstance.close()
-                    console.error(err)
-                    this.$message.error('Upload picture has an error.')
-                })
+    
             },
             mapDataToForm() {
-                this.editForm.firstname = this.userInfo.fname
-                this.editForm.lastname = this.userInfo.lname
-                this.editForm.department = this.userInfo.department
-                this.editForm.address = this.userInfo.address
-                this.editForm.fb = this.userInfo.fb
-                this.editForm.line = this.userInfo.line
-                this.editForm.ig = this.userInfo.ig
-                this.editForm.telno = this.userInfo.telno
+                console.log(this.editUserTarget)
+                this.editForm.firstname = this.editUserTarget.fname
+                this.editForm.lastname = this.editUserTarget.lname
+                this.editForm.department = this.editUserTarget.department
+                this.editForm.address = this.editUserTarget.address
+                this.editForm.fb = this.editUserTarget.fb
+                this.editForm.line = this.editUserTarget.line
+                this.editForm.ig = this.editUserTarget.ig
+                this.editForm.telno = this.editUserTarget.telno
+                this.editForm.role = this.editUserTarget.role
+                this.supervisor_id = this.editUserTarget.supervisor_id
     
-                this.imageUrl = this.userInfo.image_path
+                this.imageUrl = this.editUserTarget.image_path
             },
             checkEnter() {
                 this.onSubmitEdit()
@@ -332,12 +328,16 @@
                             fb: this.editForm.fb,
                             ig: this.editForm.ig,
                             line: this.editForm.line,
-                            department: this.editForm.department
+                            department: this.editForm.department,
+                            role: this.editForm.role
+                        }
+                        if (payload.role === 'Subordinate') {
+                            payload['supervisor_id'] = this.editForm.supervisor_id
                         }
     
-                        this.$store.dispatch('updateUser', payload)
+                        this.$store.dispatch('adminUpdateUserByID', payload)
                             .then(() => {
-                                return this.fetchGetMe()
+                                return this.prepareData()
                             })
                             .then(() => {
                                 loadingInstance.close()
@@ -359,7 +359,7 @@
             },
             handleImgError() {
                 const DEFAULT_IMG = '../../static/images/blank_profile.png'
-                // this.$store.dispatch('setUserInfoImagePath',DEFAULT_IMG)
+                // this.$store.dispatch('seteditUserTargetImagePath',DEFAULT_IMG)
                 this.imageUrl = DEFAULT_IMG
             },
             handlePictureCardPreview(file) {
@@ -418,9 +418,6 @@
     }
     
     .edit-form {
-        margin-top: 16px;
-    }
-    .margin-t-16{
         margin-top: 16px;
     }
     

@@ -9,12 +9,14 @@
             <supervisor-create-task v-else/> -->
           </transition> 
           <!-- Supervisor Taks -->
+        </div>
+        <div class="tile is-parent">
           <supervisor-pending-leave></supervisor-pending-leave>
         </div>
         <div class="tile is-parent">
           <article class="tile is-child box-card">
             <p class="title">Calendar</p>
-            <full-calendar :events="fcEvents"></full-calendar>
+            <full-calendar :events="taskCalendar"></full-calendar>
           </article>
         </div>
       </div>
@@ -39,7 +41,8 @@ export default {
   data () {
     return {
       supTask: this.isCreateTask ? 'supervisor-create-task': 'supervisor-task',
-      fcEvents: demoEvents
+      fcEvents: demoEvents,
+      taskCalendar:[]
     }
   },
   methods: {
@@ -53,9 +56,24 @@ export default {
         },
         name: 'Edit'
       }]
+    },
+    editTaskCalendar() {
+      this.taskCalendar = []
+      this.tasks.map(task => {
+        if (task.assignee) {
+          this.taskCalendar.push({ title: task.assignee.fname + ": " + task.name, start: task.start, end: task.end })
+        } else {
+          this.taskCalendar.push({ title:  + "Empty: " + task.name, start: task.start, end: task.end })
+        }
+      })
     }
   },
   mounted() {
+  },
+  watch: {
+    'tasks': function(newVal, oldVal) {
+        this.editTaskCalendar()
+      }
   },
   computed: {
     ...mapGetters(['errorMessage', 'userInfo', 'token', 'isLogin', 'tasks', 'isCreateTask'])

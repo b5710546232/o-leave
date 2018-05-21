@@ -2,7 +2,7 @@
   <div class="tile is-parent">
     <article class="tile is-child box-card">
       <p class="title">Pending Leave</p>
-      <data-tables :data="pendingLeaves" :checkbox-filter-def="checkFilterDef" :pagination-def="paginationDef" :actions-def="actionsDef">
+      <data-tables :data="pendingLeaves" :checkbox-filter-def="checkFilterDef" :pagination-def="paginationDef" :actions-def="actionsDef" :action-col-def="actionColDef">
         <el-table-column v-for="title in taskTitles" :prop="title.prop" :label="title.label" sortable="custom" :key="title.id">
         </el-table-column>
       </data-tables>
@@ -22,8 +22,11 @@ export default {
         prop: "end",
         label: "End date"
         }, {
-        prop: "name",
+        prop: "task.name",
         label: "Name",
+        }, {
+        prop: "substitution.fname",
+        label: "Substitution",
         }, {
         prop: "status",
         label: "Status"
@@ -34,7 +37,6 @@ export default {
         pageSizes: [5, 10, 20]
       },
       actionsDef: {
-        
         colProps: {
           span: 5
         },
@@ -55,10 +57,48 @@ export default {
           'code': 'doing',
           'name': 'Doing'
         }]
+      },
+      actionColDef: {
+        label: 'Actions',
+        tableColProps: {
+          align: 'center'
+        },
+        def: [{
+          handler: row => {
+            this.$message('Request Aprove' )
+            row.flow_no = "hello word " + row.id
+            this.approvePendingTask(row.id)
+          },
+          buttonProps: {
+            type: 'success'
+          },
+          name: 'Approve'
+        }, {
+          icon: 'message',
+          type: 'text',
+          handler: row => {
+            this.$message('Request Reject')
+            this.rejectPendingTask(row.id)
+          },
+          buttonProps: {
+            type: 'danger'
+          },
+          name: ' Reject '
+        }]
       }
     }
   },
   methods: {
+    approvePendingTask(index) {
+      console.log('Approve', index)
+      this.$store.dispatch('confirmPendingLeave', index)
+      setTimeout(function(){ this.$store.dispatch('getSubtitution') }, 3000)
+    },
+    rejectPendingTask(index) {
+      console.log('Reject', index)
+      this.$store.dispatch('rejectPendingLeave', index)
+      setTimeout(function(){ this.$store.dispatch('getSubtitution') }, 3000)
+    }
   },
   mounted() {
     this.$store.dispatch('getPendingLeave')

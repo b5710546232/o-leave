@@ -36,12 +36,56 @@
 
         <div class="navbar-end">
           <div class="navbar-item has-dropdown is-hoverable">
+            <div class="navbar-item pointer btn" >
+              <i class="fas fa-bell"></i> ({{ subtitution.length }})
+            </div>
+            <div class="navbar-dropdown is-right is-boxed">
+              <div class="navbar-item">
+                <div class="columns">
+                    <div class="column">
+                      Start Date
+                    </div>
+                    <div class="column">
+                      End Date
+                    </div>
+                    <div class="column">
+                      Task Name
+                    </div>
+                    <div class="column">
+                      Actions
+                    </div>
+                    <div class="column">
+                    </div>
+                  </div> 
+                </div>
+              <div class="navbar-item" v-for="task in subtitution" :key="task.id">
+                <div class="columns">
+                  <div class="column">
+                    {{ task.task.start }}
+                  </div>
+                  <div class="column">
+                    {{ task.task.end }}
+                  </div>
+                  <div class="column">
+                    {{ task.task.name }}
+                  </div>
+                  <div class="column">
+                    <a class="button is-success" @click="approvePendingTask(task.id)">Approve</a>
+                  </div>
+                  <div class="column">
+                    <a class="button is-danger" @click="rejectPendingTask(task.id)">Reject</a>
+                  </div>
+                </div> 
+              </div>
+            </div>
+          </div>
+          <div class="navbar-item has-dropdown is-hoverable">
             <router-link class="navbar-item avatar-container pointer btn" to="/profile">
                 <img class="avatar" :src="userInfo.image_path"  width="20" height="20"
                 @error="handleImgError"
                 >
-          {{userInfo.fname}} {{userInfo.lname}}
-        </router-link>
+              {{userInfo.fname}} {{userInfo.lname}}
+            </router-link>
             <div class="navbar-dropdown is-right">
               <router-link class="navbar-item" to="edituserprofile">
               Edit profile
@@ -77,7 +121,7 @@ import {mapGetters} from 'vuex'
       }
     },
     computed: {
-      ...mapGetters(['userInfo'])
+      ...mapGetters(['userInfo', 'subtitution'])
     },
     methods:{
          fetchGetMe(){
@@ -110,6 +154,16 @@ import {mapGetters} from 'vuex'
         if(role){
           this.$router.push(`/${String(role).toLowerCase()}`)
         }
+      },
+      approvePendingTask(index) {
+        console.log('Approve', index)
+        this.$store.dispatch('confirmPendingLeave', index)
+        setTimeout(function(){ this.$store.dispatch('getSubtitution') }, 3000)
+      },
+      rejectPendingTask(index) {
+        console.log('Reject', index)
+        this.$store.dispatch('rejectPendingLeave', index)
+        setTimeout(function(){ this.$store.dispatch('getSubtitution') }, 3000)
       }
     }
   };

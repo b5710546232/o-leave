@@ -77,12 +77,6 @@
                                     </el-form-item>
                                 </el-col>
     
-                                <el-col :sm="12" :md="12">
-                                    <el-form-item label="Department" prop="department">
-                                        <el-input ref="department" type="text" v-model="addForm.department" auto-complete="off" @keyup.enter.native="checkEnter">
-                                        </el-input>
-                                    </el-form-item>
-                                </el-col>
     
                                 <el-col :sm="12" :md="12">
                                     <el-form-item label="Role" prop="role">
@@ -102,6 +96,13 @@
                         }]" :key="item.value" :label="item.label" :value="item.value">
                                             </el-option>
                                         </el-select>
+                                    </el-form-item>
+                                </el-col>
+
+                                                                <el-col :sm="12" :md="12">
+                                    <el-form-item label="Department" v-if="addForm.role!=='Subordinate'" prop="department">
+                                        <el-input ref="department" type="text" v-model="addForm.department" auto-complete="off" @keyup.enter.native="checkEnter">
+                                        </el-input>
                                     </el-form-item>
                                 </el-col>
     

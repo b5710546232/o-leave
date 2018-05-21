@@ -17,7 +17,14 @@
                       </el-option>
                     </el-select>
                   </el-form-item>
-  
+
+                  <!-- substitutable -->
+                  <el-form-item label="Suboridinate" prop="sub">
+                    <el-select ref="sub" v-model="requestForm.substitution_id" placeholder="Select...">
+                      <el-option v-for="sub in substitutable" :key="sub.id" :label="sub.fname" :value="sub.id">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
   
                   <el-form-item label="Leave date" prop="leaveDate">
                     <el-date-picker format="yyyy-MM-dd" v-model="requestForm.leaveDate" type="datetimerange" range-separator="To" start-placeholder="Start date" end-placeholder="End date">
@@ -31,18 +38,18 @@
                   <el-form-item label="Type" prop="type">
                     <el-select ref="type" v-model="requestForm.type" placeholder="Select...">
                       <el-option v-for="item in [
-                                                  {
-                    value: 'Vacation leave',
-                    label: 'Vacation leave'
-                  },
-                  {
-                    value: 'Personal Errand leave',
-                    label: 'Personal Errand leave'
-                  },
-                  {
-                    value: 'Sick leave',
-                    label: 'Sick leave'
-                  }]" :key="item.value" :label="item.label" :value="item.value">
+                                                    {
+                      value: 'Vacation leave',
+                      label: 'Vacation leave'
+                    },
+                    {
+                      value: 'Personal Errand leave',
+                      label: 'Personal Errand leave'
+                    },
+                    {
+                      value: 'Sick leave',
+                      label: 'Sick leave'
+                    }]" :key="item.value" :label="item.label" :value="item.value">
                       </el-option>
                     </el-select>
                   </el-form-item>
@@ -61,8 +68,8 @@
                   <el-table-column v-for="title in leaveTitles" :prop="title.prop" :label="title.label" sortable="custom">
                   </el-table-column>
                 </data-tables>
-
-                
+  
+  
   
               </div>
   
@@ -73,7 +80,7 @@
   
             <article class="tile is-child box-card">
               <p class="title">My tasks</p>
-              <data-tables :data="myTaskList" :actions-def="actionsDef" :pagination-def="paginationDef" :checkbox-filter-def="taskCheckFilterDef">
+              <data-tables :data="myTaskList" :actions-def="actionsDef" :pagination-def="paginationDef" :action-col-def="actionColDef" :checkbox-filter-def="taskCheckFilterDef">
                 <el-table-column v-for="title in taskTitles" :prop="title.prop" :label="title.label" sortable="custom">
                 </el-table-column>
               </data-tables>
@@ -85,7 +92,7 @@
         <div class="tile is-parent">
           <article class="tile is-child box-card">
             <p class="title">Calendar</p>
-            <full-calendar :events="fcEvents"></full-calendar>
+            <full-calendar :events="taskCalendar"></full-calendar>
           </article>
         </div>
       </div>
@@ -119,7 +126,7 @@
     "flow_type": "Help",
     "flow_type_code": "help"
   }]
-      
+  
   titles = [{
     prop: "flow_no",
     label: "NO."
@@ -139,9 +146,10 @@
     name: 'HelloWorld',
     data() {
       return {
-        paginationDef:{
-          pageSize:5,
-          pageSizes:[5,10,20]
+        taskCalendar: [],
+        paginationDef: {
+          pageSize: 5,
+          pageSizes: [5, 10, 20]
         },
         isNew: false,
         requestForm: {
@@ -150,7 +158,8 @@
           pass: '',
           leaveDate: [],
           type: 'Vacation leave',
-          status: 'to-do'
+          status: 'to-do',
+          substitution_id: ''
         },
         leaveActiondef: {
           colProps: {
@@ -181,33 +190,32 @@
           }],
         },
         data,
-        leaveTitles:[{
-        prop: "start",
-        label: "Start Date"
+        leaveTitles: [{
+          prop: "start",
+          label: "Start Date"
         }, {
-        prop: "end",
-        label: "End date"
+          prop: "end",
+          label: "End date"
         }, {
-        prop: "name",
-        label: "Name",
+          prop: "name",
+          label: "Name",
         }, {
-        prop: "status",
-        label: "Status"
+          prop: "status",
+          label: "Status"
         }],
         taskTitles: [{
-        prop: "start",
-        label: "Start Date"
+          prop: "start",
+          label: "Start Date"
         }, {
-        prop: "end",
-        label: "End date"
+          prop: "end",
+          label: "End date"
         }, {
-        prop: "name",
-        label: "Name",
+          prop: "name",
+          label: "Name",
         }, {
-        prop: "status",
-        label: "Status"
-        }
-      ],
+          prop: "status",
+          label: "Status"
+        }],
         fcEvents: demoEvents,
         actionsDef: {
           colProps: {
@@ -215,7 +223,7 @@
           },
           def: []
         },
-         leaveCheckFilterDef: {
+        leaveCheckFilterDef: {
           props: 'status',
           def: [{
             'code': 'pending',
@@ -228,7 +236,7 @@
             'name': 'Denied'
           }]
         },
-           taskCheckFilterDef: {
+        taskCheckFilterDef: {
           props: 'status',
           def: [{
             'code': 'to-do',
@@ -255,24 +263,22 @@
           label: 'Actions',
           def: [{
             handler: row => {
-              this.$message('Edit clicked')
-              row.flow_no = "hello word"
+              this.maskAsDoing(row.id)
             },
-            name: 'Edit'
+            name: 'Mask doing'
           }, {
             icon: 'message',
             type: 'text',
             handler: row => {
-              this.$message('RUA in row clicked')
-              console.log('RUA in row clicked', row)
+              this.maskAsDone(row.id)
             },
-            name: 'RUA'
+            name: 'Mask done'
           }]
         }
       }
     },
     computed: {
-      ...mapGetters(['myTaskList', 'inProgessTaskList', 'userInfo', 'leaveMessage','myLeave'])
+      ...mapGetters(['myTaskList', 'inProgessTaskList', 'userInfo', 'leaveMessage', 'myLeave', 'substitutable'])
     },
     mounted() {
       let loadingInstance = Loading.service({
@@ -291,8 +297,39 @@
         .then(() => {
           return this.getMyLeaves()
         })
+        this.$store.dispatch('getSubtitution')
     },
     methods: {
+      maskAsDone(id) {
+        let loadingInstance = Loading.service({
+          fullscreen: true
+        })
+        return this.$store.dispatch('maskAsDone', id)
+          .then(() => {
+            return this.$store.dispatch('getMyTaskList')
+          })
+          .then(() => {
+            loadingInstance.close()
+          }).catch(e => {
+            console.error(e)
+            loadingInstance.close()
+          })
+      },
+      maskAsDoing(id) {
+        let loadingInstance = Loading.service({
+          fullscreen: true
+        })
+        return this.$store.dispatch('maskAsDoing', id)
+          .then(() => {
+            return this.$store.dispatch('getMyTaskList')
+          })
+          .then(() => {
+            loadingInstance.close()
+          }).catch(e => {
+            console.error(e)
+            loadingInstance.close()
+          })
+      },
       getMyLeaves() {
         let loadingInstance = Loading.service({
           fullscreen: true
@@ -317,8 +354,10 @@
           start: moment(this.requestForm.leaveDate[0]).format("YYYY-MM-DD"),
           end: moment(this.requestForm.leaveDate[1]).format("YYYY-MM-DD"),
           type: this.requestForm.type,
+          note: this.requestForm.note,
           task_id: this.requestForm.task,
-          leaver_id: this.userInfo.id
+          leaver_id: this.userInfo.id,
+          substitution_id: this.requestForm.substitution_id
         }
         let loadingInstance = Loading.service({
           fullscreen: true
@@ -358,7 +397,25 @@
         return this.$store.dispatch('getMe', this.token).then(() => {}).then(() => {
           loadingInstance.close()
         })
+      },
+      editTaskCalendar() {
+        this.taskCalendar = []
+        this.myTaskList.map(task => {
+          if (task.assignee) {
+            this.taskCalendar.push({ title: task.assignee.fname + ": " + task.name, start: task.start, end: task.end })
+          } else {
+            this.taskCalendar.push({ title:  + "Empty: " + task.name, start: task.start, end: task.end })
+          }
+        })
       }
+    },
+    watch: {
+      'requestForm.task': function(newVal, oldVal) {
+        this.$store.dispatch('getSubordinateFromTask', newVal)
+      },
+      'myTaskList': function(newVal, oldVal) {
+        this.editTaskCalendar()
+      },
     },
     components: {
       'full-calendar': require('vue-fullcalendar')
@@ -394,8 +451,9 @@
   .el-date-range-picker__time-header {
     display: none;
   }
-  .center{
-    margin-top:20%;
+  
+  .center {
+    margin-top: 20%;
   }
   
   .full-calendar-body {

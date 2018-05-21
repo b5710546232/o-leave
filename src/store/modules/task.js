@@ -15,6 +15,12 @@ const getters = {
 
 // actions
 const actions = {
+  maskAsDone ({commit, state}, id) {
+    return task.markAsDone(id)
+  },
+  maskAsDoing ({commit, state}, id) {
+    return task.maskAsDoing(id)
+  },
   getMyTaskList ({commit, state}) {
     return task.getMyTask()
       .then(myTaskList => {

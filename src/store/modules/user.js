@@ -1,4 +1,5 @@
 import user, {getAccessToken} from '@/api/user'
+import sub from '@/api/sub'
 import {URL} from '@/api/base'
 // initial state
 const state = {
@@ -18,7 +19,8 @@ const state = {
     supervisor_id: null},
   OTP: '',
   supervisorList: [],
-  userList: []
+  userList: [],
+  substitutable: []
 }
 
 // getters
@@ -26,7 +28,8 @@ const getters = {
   userInfo: state => state.userInfo,
   OTP: state => state.OTP,
   supervisorList: state => state.supervisorList,
-  userList: state => state.userList
+  userList: state => state.userList,
+  substitutable: state => state.substitutable
 }
 
 // actions
@@ -72,7 +75,8 @@ const actions = {
     }).catch(err => { throw (err) })
   },
   updateUser ({commit, state}, payload) {
-    return user.updateUser(payload)
+    const id = state.userInfo.id
+    return user.updateUser(id, payload)
   },
   getOTP ({commit, state}) {
     return user.getOTP().then(otp => {
@@ -85,6 +89,13 @@ const actions = {
   },
   setUserInfoImagePath ({commit, state}, imagePath) {
     commit('setUserInfoImagePath', imagePath)
+  },
+  getSubordinateFromTask ({commit, state}, taskID) {
+    console.log('Task ID:', taskID)
+    return sub.getSubordinateFromTask(taskID).then(subs => {
+      commit('setSubstitutable', subs)
+      return subs
+    }).catch(err => err)
   }
 }
 
@@ -104,6 +115,9 @@ const mutations = {
   },
   setSupervisorList (state, newList) {
     state.supervisorList = newList
+  },
+  setSubstitutable (state, sub) {
+    state.substitutable = sub
   }
 
 }

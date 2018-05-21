@@ -45,11 +45,20 @@ const rejectPendingLeave = (index) => {
     throw (error)
   })
 }
+// {{url}}/api/me/substitution
+const getSubtitution = () => {
+  return axios.get('/me/substitution').then((res) => {
+    return res.data
+  }).catch(error => {
+    throw (error)
+  })
+}
 export default {
   getAllLeaves,
   getMyLeaves,
   postLeave,
   getPendingLeave,
   confirmPendingLeave,
-  rejectPendingLeave
+  rejectPendingLeave,
+  getSubtitution
 }

@@ -22,6 +22,7 @@ const getters = {
 const actions = {
   getTasks ({ commit, state }, token) {
     return task.getMyTask(token).then(res => {
+      console.log('task', res)
       commit('setUserState', res)
     })
   },

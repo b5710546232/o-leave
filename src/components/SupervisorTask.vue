@@ -14,6 +14,7 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     let self = this
+    // assignee
     return {
       taskTitles: [{
         prop: "start",
@@ -24,6 +25,9 @@ export default {
         }, {
         prop: "name",
         label: "Name",
+        }, {
+        prop: "assignee.fname",
+        label: "Substitute",
         }, {
         prop: "status",
         label: "Status"

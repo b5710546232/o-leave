@@ -16,6 +16,13 @@ const getMyTask = () => {
   })
 }
 
+const markAsDone = (id) => {
+  return axios.get(`/tasks/${id}/done`)
+}
+const maskAsDoing = (id) => {
+  return axios.get(`/tasks/${id}/doing`)
+}
+
 const postTask = (payload) => {
   return axios.post('/tasks', payload).then((res) => {
     console.log('fk task')
@@ -28,5 +35,7 @@ const postTask = (payload) => {
 export default {
   getAllTask,
   getMyTask,
-  postTask
+  postTask,
+  maskAsDoing,
+  markAsDone
 }
