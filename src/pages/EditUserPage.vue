@@ -168,7 +168,7 @@
                 if (value === "") {
                     callback(new Error("Please input the password"))
                 } else {
-                    if (this.editForm.confirmPassword !== "") {
+                    if (this.changePasswordForm.confirmPassword !== "") {
                         this.$refs.editForm.validateField("confirmPassword")
                     }
                     callback()
@@ -177,7 +177,7 @@
             const checkConfirmPass = (rule, value, callback) => {
                 if (value === "") {
                     callback(new Error("Please input the password again"))
-                } else if (value !== this.editForm.password) {
+                } else if (value !== this.changePasswordForm.password) {
                     callback(new Error("Two inputs don't match!"))
                 } else {
                     callback()

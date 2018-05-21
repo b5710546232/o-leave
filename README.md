@@ -5,10 +5,13 @@
 ## Build Setup
 
 ``` bash
+# serve static file on dist
+node run server.js
+
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:8080
+# serve with hot reload at 0.0.0.0:8080
 npm run dev
 
 # build for production with minification
@@ -24,4 +27,20 @@ npm run e2e
 npm test
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+## Feature
+- Admin
+    - Manage-user
+    - Add new user
+    - export csv
+    - export pdf
+    - Connect line with QR code
+- Subordinate
+    - Request Leave form
+    - View Task on their calendar
+- Supervisor (Nattapat, Kasidit)
+    - Approve Leave form
+- User
+    - Edit
+    - Profile
+    - Login
