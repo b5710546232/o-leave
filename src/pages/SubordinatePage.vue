@@ -18,7 +18,6 @@
                     </el-select>
                   </el-form-item>
 
-                  <!-- substitutable -->
                   <el-form-item label="Suboridinate" prop="sub">
                     <el-select ref="sub" v-model="requestForm.substitution_id" placeholder="Select...">
                       <el-option v-for="sub in substitutable" :key="sub.id" :label="sub.fname" :value="sub.id">
@@ -197,7 +196,7 @@
           prop: "end",
           label: "End date"
         }, {
-          prop: "name",
+          prop: "task.name",
           label: "Name",
         }, {
           prop: "status",

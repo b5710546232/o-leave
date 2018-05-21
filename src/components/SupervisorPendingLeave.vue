@@ -85,12 +85,14 @@ export default {
     approvePendingTask(index) {
       console.log('Approve', index)
       this.$store.dispatch('confirmPendingLeave', index)
-      setTimeout(function(){ this.$store.dispatch('getSubtitution') }, 3000)
+      this.$store.dispatch('getSubtitution')
+      // setTimeout(function(){ this.$store.dispatch('getSubtitution') }, 1000)
     },
     rejectPendingTask(index) {
       console.log('Reject', index)
       this.$store.dispatch('rejectPendingLeave', index)
-      setTimeout(function(){ this.$store.dispatch('getSubtitution') }, 3000)
+      this.$store.dispatch('getSubtitution')
+      // setTimeout(function(){ this.$store.dispatch('getSubtitution') }, 1000)
     }
   },
   mounted() {

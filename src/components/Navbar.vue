@@ -34,7 +34,7 @@
 
         </div>
 
-        <div class="navbar-end">
+        <div class="navbar-end" v-if="userInfo.role==='Subordinate'">
           <div class="navbar-item has-dropdown is-hoverable">
             <div class="navbar-item pointer btn" >
               <i class="fas fa-bell"></i> ({{ subtitution.length }})
@@ -158,12 +158,12 @@ import {mapGetters} from 'vuex'
       approvePendingTask(index) {
         console.log('Approve', index)
         this.$store.dispatch('confirmPendingLeave', index)
-        setTimeout(function(){ this.$store.dispatch('getSubtitution') }, 3000)
+        setTimeout(function(){ this.$store.dispatch('getSubtitution') }, 1000)
       },
       rejectPendingTask(index) {
         console.log('Reject', index)
         this.$store.dispatch('rejectPendingLeave', index)
-        setTimeout(function(){ this.$store.dispatch('getSubtitution') }, 3000)
+        setTimeout(function(){ this.$store.dispatch('getSubtitution') }, 1000)
       }
     }
   };
